@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEKKA — Termini e Condizioni del Servizio</title>
+<link rel="stylesheet" href="dekka.css">
+<style>
+  /* ---- INDICE ---- */
+  .tos-index {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 24px 0;
+  }
+  .tos-index-block-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+  .tos-index-articles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+  }
+  .tos-index-link {
+    font-size: 13px;
+    color: var(--ink-2);
+    text-decoration: none;
+    padding: 5px 0 5px 12px;
+    border-left: 2px solid var(--border);
+    line-height: 1.4;
+    display: block;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .tos-index-link:hover { color: var(--ink); border-left-color: var(--gold); }
+  .tos-index-link span {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-3);
+    display: block;
+    margin-bottom: 1px;
+  }
+  @media(max-width: 600px) { .tos-index-articles { grid-template-columns: 1fr; } }
+
+  /* ---- PREMESSA ---- */
+  .tos-premessa {
+    background: var(--bg-card);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+  }
+  .tos-premessa-body {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+  .tos-premessa-body + .tos-premessa-body { margin-top: 12px; }
+
+  /* ---- ARTICOLI ---- */
+  .tos-art {
+    margin-bottom: 44px;
+    scroll-margin-top: 24px;
+  }
+  .tos-art-header {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tos-art-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 4px;
+  }
+  .tos-art-title {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  /* ---- PARAGRAFI § ---- */
+  .tos-para { margin-bottom: 18px; }
+  .tos-para-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-2);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+  .tos-body {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+  .tos-body + .tos-body { margin-top: 10px; }
+
+  /* ---- LISTE ---- */
+  .tos-list {
+    list-style: none;
+    margin: 12px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .tos-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--ink-2);
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .tos-list li::before {
+    content: '—';
+    font-family: var(--font-mono);
+    color: var(--ink-3);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ---- DEFINIZIONI ---- */
+  .tos-def-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin: 16px 0;
+  }
+  .tos-def-row {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+  .tos-def-row:last-child { border-bottom: none; }
+  .tos-def-term {
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink);
+    background: var(--bg);
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+  }
+  .tos-def-body {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.7;
+    font-weight: 300;
+    background: var(--bg-card);
+  }
+  @media(max-width: 600px) {
+    .tos-def-row { grid-template-columns: 1fr; }
+    .tos-def-term { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+
+  /* ---- NOTE / PLACEHOLDER ---- */
+  .tos-note {
+    background: var(--amber-light);
+    border: 1px solid rgba(138,94,16,0.2);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--amber-mid);
+    font-family: var(--font-mono);
+    margin-top: 10px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ---- SEPARATORE BLOCCO ---- */
+  .tos-sep {
+    height: 1px;
+    background: var(--border);
+    margin: 64px 0;
+  }
+
+  /* ---- DICHIARAZIONE FINALE ---- */
+  .tos-dichiarazione {
+    background: var(--bg-dark);
+    border-radius: var(--radius-lg);
+    padding: 36px 40px;
+  }
+  .tos-dichiarazione-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 10px;
+  }
+  .tos-dichiarazione-title {
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+  .tos-dichiarazione-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .tos-dichiarazione-list li {
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.6);
+    display: flex;
+    gap: 14px;
+    line-height: 1.65;
+  }
+  .tos-dichiarazione-list li::before {
+    content: '—';
+    font-family: var(--font-mono);
+    color: rgba(255,255,255,0.25);
+    flex-shrink: 0;
+  }
+  .tos-dichiarazione-footer {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    line-height: 1.7;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">Manuale operativo DEKKA · Termini e Condizioni</div>
+    <h1>Termini e Condizioni<br><strong>del Servizio</strong></h1>
+    <p class="header-desc">Versione 1.0 — In vigore dalla data di pubblicazione sul sito. Gestito da TARABINI, titolare del brand DEKKA — ditta individuale registrata in Giappone.</p>
+  </div>
+
+  <!-- INDICE -->
+  <div class="section">
+    <div class="section-label">Indice</div>
+
+    <div class="tos-index">
+
+      <div>
+        <div class="tos-index-block-title">Premessa e ambito di applicazione</div>
+      </div>
+
+      <div>
+        <div class="tos-index-block-title">Blocco I — Il Rapporto Contrattuale</div>
+        <div class="tos-index-articles">
+          <a class="tos-index-link" href="#art1"><span>Art. 1</span>Definizioni</a>
+          <a class="tos-index-link" href="#art2"><span>Art. 2</span>Qualificazione giuridica del rapporto</a>
+          <a class="tos-index-link" href="#art3"><span>Art. 3</span>Descrizione del servizio</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="tos-index-block-title">Blocco II — Accesso e Operatività</div>
+        <div class="tos-index-articles">
+          <a class="tos-index-link" href="#art4"><span>Art. 4</span>Accesso al servizio e registrazione</a>
+          <a class="tos-index-link" href="#art5"><span>Art. 5</span>Istruzioni di acquisto e dati dichiarativi</a>
+          <a class="tos-index-link" href="#art6"><span>Art. 6</span>Esecuzione del servizio</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="tos-index-block-title">Blocco III — Spedizione e Dogana</div>
+        <div class="tos-index-articles">
+          <a class="tos-index-link" href="#art7"><span>Art. 7</span>Spedizione internazionale</a>
+          <a class="tos-index-link" href="#art8"><span>Art. 8</span>Responsabilità doganale e importazione</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="tos-index-block-title">Blocco IV — Aspetti Economici</div>
+        <div class="tos-index-articles">
+          <a class="tos-index-link" href="#art9"><span>Art. 9</span>Flussi economici e gestione del Fondo Disponibile</a>
+          <a class="tos-index-link" href="#art10"><span>Art. 10</span>Compenso e Piano Tariffario</a>
+          <a class="tos-index-link" href="#art11"><span>Art. 11</span>Rendicontazione</a>
+          <a class="tos-index-link" href="#art12"><span>Art. 12</span>Piani di abbonamento e conteggio dei link</a>
+          <a class="tos-index-link" href="#art13"><span>Art. 13</span>Recesso e restituzione</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="tos-index-block-title">Blocco V — Tutele e Responsabilità</div>
+        <div class="tos-index-articles">
+          <a class="tos-index-link" href="#art14"><span>Art. 14</span>Piattaforme di terzi</a>
+          <a class="tos-index-link" href="#art15"><span>Art. 15</span>Assenza di mandato continuativo</a>
+          <a class="tos-index-link" href="#art16"><span>Art. 16</span>Discrezionalità operativa e sospensione del servizio</a>
+          <a class="tos-index-link" href="#art17"><span>Art. 17</span>Manleva e indennizzo</a>
+          <a class="tos-index-link" href="#art18"><span>Art. 18</span>Limitazione di responsabilità</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="tos-index-block-title">Blocco VI — Disposizioni Generali</div>
+        <div class="tos-index-articles">
+          <a class="tos-index-link" href="#art19"><span>Art. 19</span>Proprietà intellettuale</a>
+          <a class="tos-index-link" href="#art20"><span>Art. 20</span>Comportamento vietato</a>
+          <a class="tos-index-link" href="#art21"><span>Art. 21</span>Riservatezza</a>
+          <a class="tos-index-link" href="#art22"><span>Art. 22</span>Trattamento dei dati personali</a>
+          <a class="tos-index-link" href="#art23"><span>Art. 23</span>Modifica dei Termini</a>
+          <a class="tos-index-link" href="#art24"><span>Art. 24</span>Comunicazioni</a>
+          <a class="tos-index-link" href="#art25"><span>Art. 25</span>Legge applicabile e foro competente</a>
+          <a class="tos-index-link" href="#art26"><span>Art. 26</span>Disposizioni finali</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PREMESSA -->
+  <div class="section">
+    <div class="section-label">00 — Premessa e ambito di applicazione</div>
+    <div class="tos-premessa">
+      <p class="tos-premessa-body">I presenti Termini e Condizioni del Servizio (di seguito «ToS» o «Termini») disciplinano il rapporto tra TARABINI, titolare del brand DEKKA (di seguito «DEKKA» o «Prestatore»), ditta individuale registrata e operativa in Giappone, e il Cliente B2B (di seguito «Cliente») che accede al servizio di approvvigionamento professionale descritto nel seguito.</p>
+      <p class="tos-premessa-body">L'accesso e l'utilizzo del servizio DEKKA implicano la piena accettazione dei presenti Termini. Chi non accetta i Termini è invitato ad astenersi dall'utilizzo del servizio.</p>
+      <p class="tos-premessa-body">Il servizio è riservato esclusivamente a soggetti titolari di partita IVA attiva o equivalente identificativo fiscale aziendale riconosciuto nel proprio Paese di riferimento. Non è accessibile a consumatori privati.</p>
+      <p class="tos-premessa-body">I presenti Termini prevalgono su qualsiasi altro documento, comunicazione o intesa informale precedente. In caso di conflitto con l'Accordo di Mandato senza Rappresentanza sottoscritto dal Cliente, i presenti Termini prevalgono salvo diversa disposizione espressamente indicata in quel documento.</p>
+    </div>
+  </div>
+
+  <div class="tos-sep"></div>
+
+  <!-- BLOCCO I -->
+  <div class="section">
+    <div class="section-label">Blocco I — Il Rapporto Contrattuale · Definizioni · Qualificazione giuridica · Perimetro del servizio</div>
+
+    <div class="tos-art" id="art1">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 1</div>
+        <div class="tos-art-title">Definizioni</div>
+      </div>
+      <p class="tos-body">Ai fini dei presenti Termini si intende per:</p>
+      <div class="tos-def-list">
+        <div class="tos-def-row">
+          <div class="tos-def-term">«DEKKA» o «Prestatore»</div>
+          <div class="tos-def-body">TARABINI, ditta individuale registrata in Giappone, titolare del brand DEKKA e fornitore del servizio.</div>
+        </div>
+        <div class="tos-def-row">
+          <div class="tos-def-term">«Cliente»</div>
+          <div class="tos-def-body">Il soggetto giuridico B2B, titolare di posizione IVA attiva o equivalente, che aderisce al servizio accettando i presenti Termini.</div>
+        </div>
+        <div class="tos-def-row">
+          <div class="tos-def-term">«Servizio»</div>
+          <div class="tos-def-body">Il servizio di approvvigionamento professionale dal mercato giapponese descritto all'Art. 3.</div>
+        </div>
+        <div class="tos-def-row">
+          <div class="tos-def-term">«Piattaforma»</div>
+          <div class="tos-def-body">Il sito web e gli strumenti operativi messi a disposizione dal Prestatore per la gestione degli ordini e la comunicazione con il Cliente.</div>
+        </div>
+        <div class="tos-def-row">
+          <div class="tos-def-term">«Ordine» o «Link»</div>
+          <div class="tos-def-body">La singola istruzione di acquisto trasmessa dal Cliente al Prestatore tramite gli strumenti operativi del servizio.</div>
+        </div>
+        <div class="tos-def-row">
+          <div class="tos-def-term">«Fondo Disponibile» o «Saldo»</div>
+          <div class="tos-def-body">La somma anticipata dal Cliente a copertura delle spese di approvvigionamento, gestita secondo quanto previsto all'Art. 9.</div>
+        </div>
+        <div class="tos-def-row">
+          <div class="tos-def-term">«Compenso»</div>
+          <div class="tos-def-body">La remunerazione dovuta al Prestatore per l'erogazione del servizio, distinta dal Fondo Disponibile e determinata dal Piano Tariffario vigente.</div>
+        </div>
+        <div class="tos-def-row">
+          <div class="tos-def-term">«Piano Tariffario»</div>
+          <div class="tos-def-body">Il documento separato, accessibile tramite link dal sito DEKKA, che disciplina i piani di abbonamento, i massimali, i prezzi e i servizi accessori.</div>
+        </div>
+        <div class="tos-def-row">
+          <div class="tos-def-term">«Spese di Spedizione»</div>
+          <div class="tos-def-body">I costi del trasporto internazionale dalla sede operativa di DEKKA in Giappone alla destinazione indicata dal Cliente, inclusi nella fattura di fine periodo.</div>
+        </div>
+        <div class="tos-def-row">
+          <div class="tos-def-term">«Fattura di fine periodo»</div>
+          <div class="tos-def-body">Il documento fiscale emesso a scadenza dei 30 giorni del piano, comprensivo del canone, dell'eventuale consumo in eccedenza, delle spese di spedizione e di ogni servizio accessorio attivato nel periodo. La spedizione è condizionata al suo integrale pagamento.</div>
+        </div>
+        <div class="tos-def-row">
+          <div class="tos-def-term">«Importer of Record»</div>
+          <div class="tos-def-body">Il soggetto giuridicamente responsabile dell'importazione della merce nel Paese di destinazione. In tutti i casi, il Cliente è e rimane il solo Importer of Record.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tos-art" id="art2">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 2</div>
+        <div class="tos-art-title">Qualificazione giuridica del rapporto</div>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 1. Mandato senza rappresentanza</div>
+        <p class="tos-body">Il rapporto tra DEKKA e il Cliente è qualificato come mandato senza rappresentanza ai sensi degli articoli 643 e seguenti del Codice Civile giapponese (民法). Il Prestatore agisce in proprio nome, per conto del Cliente, nell'esecuzione degli acquisti indicati. La qualificazione adottata è quella di 委任 (iin/hida-iri): il Prestatore opera usando il proprio nome e i propri strumenti di pagamento, senza mai agire in nome del Cliente presso le piattaforme.</p>
+        <p class="tos-body">Il Prestatore non agisce come agente, rappresentante, né come venditore nei confronti del Cliente. Non acquista in nessun caso la proprietà dei beni trattati e non li rivende.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 2. Obbligazione di mezzi</div>
+        <p class="tos-body">L'obbligazione assunta dal Prestatore è di mezzi e non di risultato. DEKKA si impegna a eseguire diligentemente le istruzioni ricevute, ma non garantisce il buon esito dell'acquisto né la disponibilità del prodotto indicato.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 3. Esclusione di consulenza</div>
+        <p class="tos-body">DEKKA non fornisce consulenza doganale, fiscale, legale o commerciale. Qualsiasi indicazione operativa comunicata al Cliente ha carattere puramente informativo, si basa su esperienze e prassi generali e non costituisce garanzia di correttezza né impegna il Prestatore. Il Cliente rimane il solo responsabile delle decisioni assunte.</p>
+      </div>
+    </div>
+
+    <div class="tos-art" id="art3">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 3</div>
+        <div class="tos-art-title">Descrizione del servizio</div>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 1. Oggetto</div>
+        <p class="tos-body">DEKKA fornisce un servizio di approvvigionamento professionale dal mercato giapponese. Su istruzione scritta del Cliente, il Prestatore acquista beni — principalmente carte da gioco collezionabili e articoli accessori — su piattaforme di compravendita giapponesi (canali B2C, B2B e C2C), li riceve presso la propria sede operativa in Giappone, ne esegue il controllo formale e provvede alla spedizione internazionale verso il Cliente una volta definiti e saldati i relativi costi.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 2. Cosa DEKKA non è</div>
+        <p class="tos-body">DEKKA non è un rivenditore, non dispone di magazzino, non propone articoli di propria iniziativa, non è un indirizzo di ricezione passivo (servizio proxy), non gestisce fondi in custodia o in escrow per conto del Cliente, non presta servizi di money transfer.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 3. Autonomia decisionale del Cliente</div>
+        <p class="tos-body">Ogni decisione di acquisto è assunta in modo autonomo e consapevole dal Cliente. Il Prestatore non esprime valutazioni su singoli articoli, non fornisce raccomandazioni commerciali e non verifica la congruità dei prezzi rispetto al mercato.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 4. Piattaforme supportate</div>
+        <p class="tos-body">Le piattaforme sulle quali DEKKA opera sono indicate nella documentazione operativa del servizio. Il Prestatore si riserva il diritto di rifiutare richieste relative a piattaforme che non consentano l'erogazione del servizio in modo completo e conforme.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tos-sep"></div>
+
+  <!-- BLOCCO II -->
+  <div class="section">
+    <div class="section-label">Blocco II — Accesso e Operatività · Registrazione · Istruzioni di acquisto · Esecuzione del servizio</div>
+
+    <div class="tos-art" id="art4">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 4</div>
+        <div class="tos-art-title">Accesso al servizio e registrazione</div>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 1. Requisiti</div>
+        <p class="tos-body">Possono accedere al servizio esclusivamente soggetti titolari di partita IVA attiva o equivalente identificativo fiscale aziendale riconosciuto nel proprio Paese, indipendentemente dalla dimensione o struttura giuridica dell'impresa.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 2. Procedura di registrazione</div>
+        <p class="tos-body">L'accesso al servizio richiede la registrazione sulla Piattaforma DEKKA, la verifica del metodo di pagamento (mediante un addebito simbolico di 100 ¥) e la sottoscrizione dei presenti Termini nonché dell'Accordo di Mandato senza Rappresentanza.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 3. Obblighi del Cliente in fase di registrazione</div>
+        <p class="tos-body">Il Cliente si obbliga a fornire informazioni veritiere, accurate e aggiornate. In caso di variazioni rilevanti (ragione sociale, partita IVA, indirizzo, contatti), il Cliente deve aggiornare i propri dati senza indugio. Il Prestatore non è responsabile delle conseguenze derivanti da informazioni errate o non aggiornate.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 4. Unicità dell'account e credenziali</div>
+        <p class="tos-body">Ogni soggetto giuridico può essere titolare di un solo account. È vietata la registrazione multipla. Il Cliente è responsabile della custodia e riservatezza delle proprie credenziali. Ogni operazione effettuata tramite le credenziali del Cliente si considera eseguita dal Cliente stesso. In caso di compromissione delle credenziali, il Cliente deve darne immediata comunicazione al Prestatore.</p>
+      </div>
+    </div>
+
+    <div class="tos-art" id="art5">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 5</div>
+        <div class="tos-art-title">Istruzioni di acquisto e dati dichiarativi</div>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 1. Modalità di trasmissione</div>
+        <p class="tos-body">Il Cliente trasmette le istruzioni di acquisto tramite gli strumenti operativi messi a disposizione dalla Piattaforma DEKKA. Ogni istruzione deve contenere almeno: il riferimento al prodotto (link o codice), la quantità e il valore dichiarato ai fini doganali. Le istruzioni devono essere trasmesse in forma scritta e tracciabile.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 2. Responsabilità esclusiva del Cliente sui dati</div>
+        <p class="tos-body">I dati dichiarativi forniti dal Cliente — descrizione dei beni, quantità, valore ai fini doganali, destinazione d'uso — sono forniti sotto la piena ed esclusiva responsabilità del Cliente, in qualità di Importer of Record. Questa responsabilità permane anche qualora tali dati vengano riportati nella documentazione di esportazione redatta da DEKKA.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 3. Facoltà di revisione</div>
+        <p class="tos-body">Il Prestatore si riserva la facoltà di rifiutare o sospendere l'esecuzione di istruzioni che presentino valori palesemente incoerenti con le caratteristiche del prodotto, incongruenti con le quotazioni di mercato o tali da esporre il Prestatore a rischi legali, fiscali o reputazionali. Il Cliente non potrà pretendere l'esecuzione di istruzioni contenenti valori manifestamente falsi o assurdi.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 4. Vincolo dell'istruzione</div>
+        <p class="tos-body">Una volta trasmessa e accettata un'istruzione di acquisto, il Cliente non può revocarla unilateralmente. Il Prestatore potrà valutare, a propria discrezione, la gestione di eventuali richieste di cancellazione prima che l'acquisto sia concluso.</p>
+      </div>
+    </div>
+
+    <div class="tos-art" id="art6">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 6</div>
+        <div class="tos-art-title">Esecuzione del servizio</div>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 1. Tempistiche</div>
+        <p class="tos-body">I tempi di esecuzione dipendono dalla disponibilità del prodotto sulla piattaforma e dalle condizioni operative al momento della richiesta. DEKKA non garantisce tempi fissi di esecuzione.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 2. Controllo formale (incluso)</div>
+        <p class="tos-body">Ogni articolo ricevuto è sottoposto a controllo formale gratuito. Il controllo verifica che il prodotto fisicamente ricevuto corrisponda a quello indicato nell'annuncio (corrispondenza di oggetto e quantità). Non valuta le condizioni fisiche: un prodotto danneggiato ma corrispondente a quanto ordinato è conforme ai fini del controllo formale.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 3. Controllo qualitativo (accessorio a pagamento)</div>
+        <p class="tos-body">È disponibile un controllo qualitativo che verifica visivamente la presenza di danni fisici evidenti: graffi, pieghe, abrasioni, pressioni, strappi, sporco. Non costituisce valutazione specialistica né servizio di grading. I difetti di stampa non rientrano nei parametri di valutazione. Il prezzo è indicato nel Piano Tariffario.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 4. Prodotti contraffatti</div>
+        <p class="tos-body">Il controllo formale include la verifica di casi palesi di contraffazione, riconoscibili attraverso competenze generiche. DEKKA non è un servizio di autenticazione specialistica: la merce abilmente contraffatta viene classificata come conforme. Il Prestatore non assume responsabilità per il mancato rilevamento di falsi non identificabili senza perizia specialistica.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 5. Accorpamento e imballaggio (incluso)</div>
+        <p class="tos-body">Prima della spedizione internazionale la merce viene consolidata in un unico collo ottimizzato. Il servizio di accorpamento e l'inserimento in perfect size sleeve sono inclusi gratuitamente.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 6. Anomalie nell'esecuzione</div>
+        <p class="tos-body">Qualora un articolo risulti sold out, venga cancellato dal venditore o non venga spedito, il Cliente viene informato e l'importo già versato viene riaccreditato al Fondo Disponibile. Il link non viene conteggiato ai fini del massimale del piano. Qualora il prezzo di un articolo C2C aumenti dopo l'invio dell'istruzione, il Cliente viene informato e decide in autonomia se procedere al nuovo prezzo o rinunciare.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tos-sep"></div>
+
+  <!-- BLOCCO III -->
+  <div class="section">
+    <div class="section-label">Blocco III — Spedizione e Dogana · Spedizione internazionale · Responsabilità doganale · Importer of Record</div>
+
+    <div class="tos-art" id="art7">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 7</div>
+        <div class="tos-art-title">Spedizione internazionale</div>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 1. Calcolo e comunicazione delle spese</div>
+        <p class="tos-body">Le spese di spedizione vengono calcolate e comunicate al Cliente dopo l'accorpamento della merce e la chiusura del collo, al fine di determinare peso e volume effettivi. Il preventivo riflette il costo reale e non una stima. Le spese sono soggette a rivalutazione ogni primo giorno della settimana (fuso orario giapponese). Le spese di spedizione sono incluse nella fattura di fine periodo insieme al canone e agli altri servizi.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 2. Pagamento e smaltimento</div>
+        <p class="tos-body">La spedizione è condizionata al saldo integrale della fattura di fine periodo, comprensiva di canone, consumo in eccedenza, spese di spedizione e servizi accessori. In assenza di pagamento entro 30 giorni dall'emissione della fattura, la merce sarà smaltita dal Prestatore senza possibilità di reclamo o rimborso.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 3. Spedizioniere designato</div>
+        <p class="tos-body">Lo spedizioniere internazionale di riferimento di DEKKA è FedEx Japan. Il Prestatore è cliente del corriere; il Cliente finale è l'importatore. FedEx Japan è il riferimento operativo predefinito ma non comporta obbligo per il Cliente.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 4. Spedizioniere alternativo</div>
+        <p class="tos-body">Il Cliente può avvalersi di un proprio spedizioniere. In tal caso tutta la documentazione doganale (esportazione e importazione) e le comunicazioni con il corriere sono gestite direttamente dal Cliente. DEKKA si limita a consegnare la merce al magazzino proxy designato e non figura nei documenti di esportazione. Il Cliente rinuncia altresì a qualsiasi servizio accessorio DEKKA che richieda il coinvolgimento dello spedizioniere designato, inclusa l'assicurazione sul pacco.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 5. Condizioni di resa</div>
+        <p class="tos-body">Le spedizioni sono effettuate in condizioni EXW (Ex Works) dalla sede del Prestatore, salvo diversi accordi scritti. La responsabilità di DEKKA per danni imputabili al trasporto cessa al momento della consegna della merce allo spedizioniere internazionale designato.</p>
+      </div>
+    </div>
+
+    <div class="tos-art" id="art8">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 8</div>
+        <div class="tos-art-title">Responsabilità doganale e importazione</div>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 1. Importer of Record</div>
+        <p class="tos-body">Il Cliente è il solo Importer of Record. Tutti gli oneri, i rischi e le responsabilità connessi all'importazione — inclusi dazi, IVA, accise, sanzioni, rivalutazioni, ispezioni, sequestri e distruzioni, anche successivi allo sdoganamento o retroattivi — ricadono esclusivamente sul Cliente.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 2. Documentazione di esportazione</div>
+        <p class="tos-body">Il Prestatore redige la documentazione di esportazione determinando esclusivamente gli elementi tecnici e logistici (codici HS ai fini dell'export, peso, dimensioni, numero dei colli). I valori doganali dichiarati sono determinati e forniti dal Cliente. I termini di resa indicati nella documentazione sono «DAP Italy» con addebito di dazi, IVA doganale e spese accessorie al Cliente. La documentazione riporterà la dicitura: «I valori doganali sono decisi e forniti dal Cliente».</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 3. Gestione di eventi critici</div>
+        <p class="tos-body">In caso di blocchi doganali, ispezioni, richieste documentali o rivalutazioni, il Cliente è il solo responsabile nei confronti delle autorità competenti. Il Prestatore può collaborare su base discrezionale, senza obbligo. L'eventuale supporto è a costi separati e non implica assunzione di responsabilità.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tos-sep"></div>
+
+  <!-- BLOCCO IV -->
+  <div class="section">
+    <div class="section-label">Blocco IV — Aspetti Economici · Flussi finanziari · Compenso · Piano tariffario · Recesso</div>
+
+    <div class="tos-art" id="art9">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 9</div>
+        <div class="tos-art-title">Flussi economici e gestione del Fondo Disponibile</div>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 1. Struttura dei flussi</div>
+        <p class="tos-body">Il servizio prevede due flussi economici distinti: (i) gli anticipi destinati all'acquisto della merce (Fondo Disponibile), versati in via anticipata prima di ogni acquisto; (ii) la Fattura di fine periodo, emessa a scadenza dei 30 giorni del piano e comprensiva del canone del piano, dell'eventuale consumo in eccedenza, delle spese di spedizione e di ogni altro servizio accessorio attivato nel periodo. Ciascun flusso ha natura, tempistica e causale differente.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 2. Valuta</div>
+        <p class="tos-body">Tutti i versamenti sono denominati in yen giapponesi (JPY). Il servizio è erogato da un soggetto giapponese e ha luogo in Giappone. I costi di conversione valutaria sono a esclusivo carico del Cliente. Si raccomanda l'utilizzo di un conto aziendale multivaluta per ottimizzare i costi di cambio.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 3. Natura del Fondo Disponibile</div>
+        <p class="tos-body">I versamenti effettuati dal Cliente a copertura degli acquisti hanno natura di anticipi destinati esclusivamente alle spese di approvvigionamento che il Prestatore sosterrà per conto del Cliente. Il Prestatore utilizza tali fondi esclusivamente per l'acquisto dei beni indicati e non è autorizzato a impiegarli per finalità diverse. DEKKA non gestisce fondi in custodia, deposito cauzionale, escrow o equivalenti e non presta servizi di money transfer.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 4. Modalità di versamento</div>
+        <p class="tos-body">Il Fondo Disponibile può essere alimentato contestualmente all'invio di ciascun link (per il solo importo dell'acquisto) oppure in blocco. In entrambi i casi i fondi devono essere disponibili prima che DEKKA possa procedere all'acquisto.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 5. Saldo e restituzione</div>
+        <p class="tos-body">I fondi non ancora impiegati rimangono disponibili sul saldo del Cliente. Il Cliente può richiederne la restituzione in qualsiasi momento con comunicazione scritta. La procedura può richiedere da 1 a 14 giorni lavorativi. I costi di trasferimento sono a carico del Cliente. Non è possibile richiedere la restituzione parziale del saldo durante un periodo di attività del servizio, salvo accordo scritto.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 6. Spese non rimborsabili</div>
+        <p class="tos-body">Le spese già sostenute dal Prestatore non sono rimborsabili in caso di dati errati forniti dal Cliente, blocchi doganali, eventi fuori dal controllo del Prestatore o revoca tardiva delle istruzioni.</p>
+      </div>
+    </div>
+
+    <div class="tos-art" id="art10">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 10</div>
+        <div class="tos-art-title">Compenso e Piano Tariffario</div>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 1. Rinvio al Piano Tariffario</div>
+        <p class="tos-body">Il compenso per il servizio DEKKA è determinato dal Piano Tariffario vigente, accessibile tramite link dal sito DEKKA. L'accettazione dei presenti Termini comporta accettazione delle condizioni economiche e operative richiamate nel Piano Tariffario.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 2. Separazione e maturazione</div>
+        <p class="tos-body">Il Compenso è separato dal Fondo Disponibile. Il canone mensile, il consumo in eccedenza, le spese di spedizione e i servizi accessori sono addebitati in un'unica fattura emessa a scadenza dei 30 giorni del piano. I compensi maturano indipendentemente dall'esito dell'importazione. Non sono previsti rimborsi per periodi non fruiti, salvo diversa disposizione del Piano Tariffario.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 3. Servizi accessori e periodo di prova</div>
+        <p class="tos-body">Il corrispettivo per i servizi accessori a pagamento è incluso nella fattura di fine periodo ed è indicato nel Piano Tariffario. È disponibile un periodo di prova (Trial) alle condizioni indicate nel Piano Tariffario; il Trial è attivabile una sola volta per ciascun account.</p>
+      </div>
+    </div>
+
+    <div class="tos-art" id="art11">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 11</div>
+        <div class="tos-art-title">Rendicontazione</div>
+      </div>
+      <p class="tos-body">Il Prestatore fornisce al Cliente visibilità sullo stato degli ordini in corso e sul saldo del Fondo Disponibile tramite gli strumenti operativi della Piattaforma. La rendicontazione è espressa in yen giapponesi (JPY). Il Prestatore non fornisce rendiconti contabili certificati e non svolge funzioni di custodia o segregazione patrimoniale. Il Compenso DEKKA è oggetto di documentazione fiscale distinta. Gli acquisti effettuati tramite DEKKA sono documentati in modo da consentire al Cliente di utilizzarli come giustificativo di spesa; si raccomanda di verificare con il proprio consulente fiscale le modalità di utilizzo.</p>
+    </div>
+
+    <div class="tos-art" id="art12">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 12</div>
+        <div class="tos-art-title">Piani di abbonamento e conteggio dei link</div>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 1. Unità di misura</div>
+        <p class="tos-body">L'unità di misura del servizio è il link. Ogni link corrisponde a una richiesta di acquisto e può comprendere fino a un massimo di 25 articoli. Indipendentemente dal numero di articoli inclusi, il link è conteggiato come una singola unità.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 2. Conteggio</div>
+        <p class="tos-body">Un link viene conteggiato esclusivamente quando l'acquisto si conclude con successo e la merce viene ricevuta e validata. Non vengono conteggiati i link relativi ad acquisti non andati a buon fine (sold out, cancellazione, mancata spedizione). I link in stato CANCELLATO, RESO o SOLD OUT sono esclusi dal conteggio.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 3. Massimale, eccedenza e cambio piano</div>
+        <p class="tos-body">Il massimale si azzera a ogni rinnovo e non è cumulabile. In caso di superamento del massimale è prevista una componente a consumo per link, alle tariffe indicate nel Piano Tariffario. Una volta attivato un piano non è possibile effettuare upgrade o downgrade prima della naturale scadenza.</p>
+      </div>
+    </div>
+
+    <div class="tos-art" id="art13">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 13</div>
+        <div class="tos-art-title">Recesso e restituzione</div>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 1. Recesso del Cliente</div>
+        <p class="tos-body">Il Cliente può recedere dal servizio in qualsiasi momento con comunicazione scritta al Prestatore. Il recesso non opera retroattivamente sugli incarichi già avviati. Non è previsto rimborso per la parte di periodo non fruita.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 2. Restituzione del saldo e scadenza</div>
+        <p class="tos-body">L'eventuale saldo positivo del Fondo Disponibile, al netto delle spese già impegnate e dei compensi maturati, sarà restituito al Cliente tramite i canali di trasferimento disponibili, al netto dei costi di trasferimento a carico del Cliente (da 1 a 14 giorni lavorativi). Al momento del recesso è emessa la fattura di fine periodo pro-quota per il periodo effettivamente fruito. Il servizio si interrompe immediatamente alla scadenza del piano senza rinnovo; le richieste trasmesse in assenza di un piano attivo non vengono processate.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tos-sep"></div>
+
+  <!-- BLOCCO V -->
+  <div class="section">
+    <div class="section-label">Blocco V — Tutele e Responsabilità · Piattaforme terze · Discrezionalità · Manleva · Limitazione di responsabilità</div>
+
+    <div class="tos-art" id="art14">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 14</div>
+        <div class="tos-art-title">Piattaforme di terzi</div>
+      </div>
+      <p class="tos-body">Il servizio si avvale di marketplace e piattaforme di terzi. Il Prestatore non garantisce la continuità, la disponibilità o la stabilità dei medesimi. Sospensioni di account, cancellazioni di ordini per cause imputabili al venditore o alla piattaforma, o modifiche ai termini di servizio di piattaforme terze non sono imputabili al Prestatore. Gli eventuali rimborsi ricevuti da piattaforme terze vengono riaccreditati al Cliente al netto delle eventuali trattenute applicate dalla piattaforma. Il Cliente prende atto dei rischi intrinseci legati all'utilizzo di canali C2C: variabilità dei prezzi, disponibilità incerta, discrezionalità del venditore privato.</p>
+    </div>
+
+    <div class="tos-art" id="art15">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 15</div>
+        <div class="tos-art-title">Assenza di mandato continuativo</div>
+      </div>
+      <p class="tos-body">Non esiste alcun mandato generale o continuativo. Ogni incarico è autonomo e indipendente. Il Prestatore si riserva il diritto di rifiutare incarichi futuri senza obbligo di motivazione e senza che ciò generi diritti risarcitori in capo al Cliente. Nessuna comunicazione, prassi reiterata o comportamento concludente potrà essere interpretata come costitutiva di un mandato continuativo o di un affidamento stabile.</p>
+    </div>
+
+    <div class="tos-art" id="art16">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 16</div>
+        <div class="tos-art-title">Discrezionalità operativa e sospensione del servizio</div>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 1. Diritto di rifiuto e sospensione</div>
+        <p class="tos-body">Il Prestatore si riserva il diritto, a propria esclusiva discrezione, di rifiutare incarichi, sospendere temporaneamente il servizio, bloccare richieste in corso o interrompere il servizio quando: i Termini sono violati; i dati forniti risultano incoerenti, incompleti o rischiosi; l'operazione espone il Prestatore a rischi legali, fiscali, doganali, bancari o reputazionali.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 2. Effetti e sospensione account</div>
+        <p class="tos-body">L'esercizio di tale discrezionalità non comporta obbligo di fornire spiegazioni o motivazioni, non dà diritto ad alcun risarcimento e non pregiudica i compensi già maturati. Il Prestatore può sospendere o disattivare l'account del Cliente senza preavviso in caso di: violazione dei Termini; fornitura di informazioni false; mancato pagamento; comportamenti che mettano a rischio la reputazione o l'operatività del Prestatore; richiesta di autorità competenti.</p>
+      </div>
+    </div>
+
+    <div class="tos-art" id="art17">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 17</div>
+        <div class="tos-art-title">Manleva e indennizzo</div>
+      </div>
+      <p class="tos-body">Il Cliente manleva e tiene indenne il Prestatore, i suoi collaboratori e aventi causa da qualsiasi danno diretto o indiretto, sanzione, costo, spesa legale o richiesta di autorità derivante:</p>
+      <ul class="tos-list">
+        <li>dall'esecuzione del servizio sulla base delle istruzioni e dei dati forniti dal Cliente;</li>
+        <li>da dati errati, incompleti o formalmente plausibili ma sostanzialmente non corretti;</li>
+        <li>dalla violazione dei presenti Termini da parte del Cliente;</li>
+        <li>da qualsiasi inadempimento del Cliente nei confronti delle autorità doganali, fiscali o di qualsiasi altro ente;</li>
+        <li>da qualsiasi violazione di legge, regolamento o normativa applicabile imputabile al Cliente.</li>
+      </ul>
+      <p class="tos-body">La manleva opera anche in caso di accordo transattivo con terzi, senza necessità di giudizio definitivo.</p>
+    </div>
+
+    <div class="tos-art" id="art18">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 18</div>
+        <div class="tos-art-title">Limitazione di responsabilità</div>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 1. Esclusioni</div>
+        <p class="tos-body">Il Prestatore non è responsabile per: fluttuazioni di cambio e costi di conversione; costi imprevisti imputabili a terzi; ritardi imputabili a vettori, piattaforme, venditori privati o autorità; perdita o danneggiamento della merce successivi alla consegna allo spedizioniere designato; blocchi doganali, sequestri o distruzioni della merce in importazione; mancato rilevamento di merce contraffatta non identificabile senza perizia specialistica; interruzione, modifica o cessazione del servizio da parte di piattaforme terze; danni indiretti, perdita di profitti, danni consequenziali.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 2. Limite massimo</div>
+        <p class="tos-body">In ogni caso, la responsabilità massima del Prestatore nei confronti del Cliente per qualsiasi causa è limitata al valore del Compenso mensile effettivamente versato dal Cliente nel mese in cui si è verificato l'evento, salvo dolo o colpa grave del Prestatore.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tos-sep"></div>
+
+  <!-- BLOCCO VI -->
+  <div class="section">
+    <div class="section-label">Blocco VI — Disposizioni Generali · Proprietà intellettuale · Comportamento vietato · Privacy · Legge applicabile</div>
+
+    <div class="tos-art" id="art19">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 19</div>
+        <div class="tos-art-title">Proprietà intellettuale</div>
+      </div>
+      <p class="tos-body">Tutti i diritti di proprietà intellettuale relativi al brand DEKKA, al sito, alla Piattaforma, ai contenuti, ai loghi e ai materiali del servizio sono di titolarità esclusiva del Prestatore o dei rispettivi aventi diritto. Il Cliente non acquisisce alcun diritto sui predetti elementi per effetto dell'utilizzo del servizio.</p>
+    </div>
+
+    <div class="tos-art" id="art20">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 20</div>
+        <div class="tos-art-title">Comportamento vietato</div>
+      </div>
+      <p class="tos-body">Il Cliente si impegna a non utilizzare il servizio per:</p>
+      <ul class="tos-list">
+        <li>acquistare beni la cui importazione o esportazione sia vietata o soggetta a restrizioni;</li>
+        <li>fornire valori doganali palesemente falsi o non corrispondenti al reale valore dei beni;</li>
+        <li>effettuare acquisti di beni contraffatti o illeciti;</li>
+        <li>eludere normative doganali, fiscali o valutarie;</li>
+        <li>riciclare denaro o finanziare attività illecite;</li>
+        <li>compiere atti fraudolenti nei confronti del Prestatore, delle piattaforme o di terzi;</li>
+        <li>violare i termini di servizio delle piattaforme utilizzate, nella misura in cui ciò esponga il Prestatore a sanzioni o responsabilità.</li>
+      </ul>
+      <p class="tos-body">In caso di violazione il Prestatore ha diritto di sospendere immediatamente il servizio e di rivalersi sul Cliente per tutti i danni subiti.</p>
+    </div>
+
+    <div class="tos-art" id="art21">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 21</div>
+        <div class="tos-art-title">Riservatezza</div>
+      </div>
+      <p class="tos-body">Le informazioni relative al funzionamento operativo del servizio, alle piattaforme utilizzate, alle prassi adottate e ai prezzi praticati sono riservate e non possono essere divulgate a terzi senza previa autorizzazione scritta del Prestatore. Il Cliente si impegna a non utilizzare le informazioni acquisite nel corso del rapporto per replicare o promuovere servizi concorrenti in modo sleale nei confronti di DEKKA.</p>
+    </div>
+
+    <div class="tos-art" id="art22">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 22</div>
+        <div class="tos-art-title">Trattamento dei dati personali</div>
+      </div>
+      <p class="tos-body">Il trattamento dei dati personali del Cliente è disciplinato dalla Privacy Policy di DEKKA, documento separato accessibile tramite link dal sito, che il Cliente è tenuto a leggere e accettare prima di procedere alla registrazione.</p>
+      <div class="tos-note">Placeholder — Privacy Policy da sviluppare come documento separato.</div>
+    </div>
+
+    <div class="tos-art" id="art23">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 23</div>
+        <div class="tos-art-title">Modifica dei Termini</div>
+      </div>
+      <p class="tos-body">Il Prestatore si riserva il diritto di modificare i presenti Termini in qualsiasi momento, dandone comunicazione al Cliente tramite la Piattaforma o via email con un preavviso di almeno 15 giorni. Continuando a utilizzare il servizio dopo la data di entrata in vigore delle modifiche, il Cliente ne accetta le nuove condizioni. Chi non accetta le modifiche può recedere dal servizio entro il termine di preavviso. Il Piano Tariffario può essere aggiornato con preavviso di 15 giorni; le modifiche tariffarie si applicano al piano successivo a quello in corso.</p>
+    </div>
+
+    <div class="tos-art" id="art24">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 24</div>
+        <div class="tos-art-title">Comunicazioni</div>
+      </div>
+      <p class="tos-body">Le comunicazioni ufficiali tra le parti avvengono in forma scritta, tramite gli strumenti della Piattaforma o via email agli indirizzi registrati. Le comunicazioni si considerano ricevute: se inviate tramite Piattaforma, al momento della trasmissione; se inviate via email, entro 24 ore dall'invio salvo prova di mancata ricezione. Il Cliente è responsabile del mantenimento di un indirizzo email valido e funzionante.</p>
+    </div>
+
+    <div class="tos-art" id="art25">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 25</div>
+        <div class="tos-art-title">Legge applicabile e foro competente</div>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 1. Disciplina biforcata</div>
+        <p class="tos-body">Il presente rapporto è soggetto a una disciplina biforcata in ragione della duplice natura internazionale dell'operazione.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 2. Rapporto contrattuale tra le parti</div>
+        <p class="tos-body">I diritti e gli obblighi reciproci tra Prestatore e Cliente — inclusi compensi, recesso, manleva e ogni controversia inerente al rapporto contrattuale — sono regolati dalla legge italiana. Per le relative controversie è competente in via esclusiva il Tribunale di Milano, con rinuncia a qualsiasi altro foro.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 3. Esecuzione operativa in Giappone</div>
+        <p class="tos-body">Le attività svolte dal Prestatore sul territorio giapponese — acquisto, gestione dei fondi, spedizione e ogni altra operazione eseguita localmente — sono soggette alla legge giapponese. Per le controversie relative a tali attività è competente il Tribunale giapponese territorialmente competente.</p>
+      </div>
+      <div class="tos-para">
+        <div class="tos-para-label">§ 4. Lingua prevalente</div>
+        <p class="tos-body">I presenti Termini sono redatti in lingua italiana, che costituisce la versione ufficiale e prevalente. Eventuali traduzioni in altre lingue hanno valore puramente informativo e non vincolano le parti.</p>
+      </div>
+    </div>
+
+    <div class="tos-art" id="art26">
+      <div class="tos-art-header">
+        <div class="tos-art-eyebrow">Art. 26</div>
+        <div class="tos-art-title">Disposizioni finali</div>
+      </div>
+      <p class="tos-body">Qualora una o più disposizioni dei presenti Termini risulti nulla o inefficace, le restanti disposizioni continueranno ad avere piena validità. Il mancato esercizio di un diritto da parte del Prestatore non costituisce rinuncia a tale diritto. I presenti Termini, unitamente al Piano Tariffario e all'Accordo di Mandato senza Rappresentanza, costituiscono l'integrale accordo tra le parti in relazione al servizio DEKKA e sostituiscono qualsiasi intesa precedente avente il medesimo oggetto. I presenti Termini non conferiscono diritti a soggetti terzi rispetto alle parti.</p>
+    </div>
+  </div>
+
+  <!-- DICHIARAZIONE DI ACCETTAZIONE -->
+  <div class="tos-dichiarazione">
+    <div class="tos-dichiarazione-eyebrow">Dichiarazione di accettazione</div>
+    <div class="tos-dichiarazione-title">Utilizzando il servizio DEKKA e completando la procedura di registrazione, il Cliente dichiara:</div>
+    <ul class="tos-dichiarazione-list">
+      <li>di aver letto, compreso e di accettare integralmente i presenti Termini e Condizioni del Servizio;</li>
+      <li>di aver preso visione del Piano Tariffario vigente e di accettarne le condizioni economiche;</li>
+      <li>di essere titolare di posizione IVA attiva o equivalente e di agire nell'esercizio della propria attività economica;</li>
+      <li>di assumere la piena responsabilità di Importer of Record per tutte le merci acquistate tramite il servizio;</li>
+      <li>di manlevare il Prestatore secondo quanto previsto all'Art. 17.</li>
+    </ul>
+    <div class="tos-dichiarazione-footer">
+      DEKKA — TARABINI &nbsp;·&nbsp; Versione 1.0<br>
+      I presenti Termini sono accessibili e aggiornati all'indirizzo: [URL SITO DEKKA]/terms
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

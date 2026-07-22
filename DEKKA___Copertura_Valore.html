@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<!-- saved from url=(0093)file:///C:/Users/%E3%82%BF%E3%83%A9%E3%83%93%E3%83%8B/Downloads/dekka_copertura_valore_1.html -->
+<html lang="it"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEKKA — Copertura Valore</title>
+<link rel="stylesheet" href="dekka.css">
+<style>
+  /* ---- FLUSSO ---- */
+  .flow { display: flex; flex-direction: column; gap: 0; margin: 28px 0; }
+  .flow-step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 0 16px;
+    position: relative;
+  }
+  .flow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 40px;
+    bottom: 0;
+    width: 1px;
+    background: var(--border-strong);
+  }
+  .flow-num {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border-strong);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-2);
+    background: var(--bg-card);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .flow-num.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .flow-content { padding: 8px 0 28px; }
+  .flow-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .flow-desc { font-size: 13px; color: var(--ink-2); line-height: 1.65; font-weight: 300; }
+  .flow-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-top: 6px;
+    letter-spacing: 0.05em;
+  }
+  .tag-gold { background: var(--gold-light); color: var(--gold-dark); }
+  .tag-red  { background: var(--red-light);  color: var(--red-mid); }
+  .tag-green{ background: var(--green-light);color: var(--green-mid); }
+
+  /* ---- SCALA ---- */
+  .scala { border: 1px solid var(--border-strong); border-radius: var(--radius-lg); overflow: hidden; margin: 24px 0; }
+  .scala-row {
+    display: grid;
+    grid-template-columns: 52px 120px 1fr;
+    border-bottom: 1px solid var(--border);
+    align-items: stretch;
+  }
+  .scala-row:last-child { border-bottom: none; }
+  .scala-row.header { background: var(--bg); }
+  .sc-cell { padding: 12px 14px; font-size: 13px; }
+  .sc-cell.center { text-align: center; display: flex; align-items: center; justify-content: center; }
+  .sc-cell.mono { font-family: var(--font-mono); font-size: 11px; color: var(--ink-2); }
+  .sc-badge {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  }
+  .bd1 { background: #E8F0E4; color: #27500A; }
+  .bd2 { background: #EDF4E9; color: #3A6B28; }
+  .bd3 { background: var(--amber-light); color: #6A4A08; }
+  .bd4 { background: #FAE8DC; color: #8A3A18; }
+  .bd5 { background: var(--red-light); color: var(--red-mid); }
+  .sc-name { font-size: 13px; font-weight: 500; color: var(--ink); display: block; }
+  .sc-sub  { font-size: 11px; color: var(--ink-3); display: block; margin-top: 1px; font-family: var(--font-mono); }
+  .sc-desc { font-size: 12px; color: var(--ink-2); line-height: 1.6; font-weight: 300; }
+
+  /* ---- PIANI ---- */
+  .piani-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 24px 0; }
+  .piano {
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    background: var(--bg-card);
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .piano.featured {
+    border-color: var(--gold);
+    background: #FFFDF5;
+  }
+  .piano-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+  .piano.featured .piano-eyebrow { color: var(--gold-dark); }
+  .piano-name { font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+  .piano-price {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .piano-access {
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-bottom: 16px;
+    font-family: var(--font-mono);
+  }
+  .piano-rows { border-top: 1px solid var(--border); }
+  .piano-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 0;
+    font-size: 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-2);
+  }
+  .piano-row:last-child { border-bottom: none; }
+  .piano-row strong { color: var(--ink); font-weight: 500; font-family: var(--font-mono); }
+
+  /* ---- SIMULATORE ---- */
+  .sim-wrapper {
+    background: var(--bg-card);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .sim-header {
+    background: var(--bg-dark);
+    padding: 28px 32px 24px;
+  }
+  .sim-header-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 8px;
+  }
+  .sim-header h2 {
+    font-size: 20px;
+    font-weight: 300;
+    color: #fff;
+    letter-spacing: -0.01em;
+  }
+  .sim-header h2 strong { font-weight: 500; }
+  .sim-header-desc {
+    margin-top: 8px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+  }
+  .sim-body { padding: 28px 24px; }
+  .sim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  .sim-field label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .sim-field input, .sim-field select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .sim-field input:focus, .sim-field select:focus { border-color: var(--ink); }
+  .sim-field.full { grid-column: 1 / -1; }
+
+  .sim-livelli {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+  .sim-livello-btn {
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 8px 4px;
+    text-align: center;
+    cursor: pointer;
+    background: var(--bg);
+    transition: all 0.15s;
+    position: relative;
+  }
+  .sim-livello-btn.active { border-color: var(--ink); background: var(--ink); }
+  .sim-livello-btn .slb { font-family: var(--font-mono); font-size: 11px; font-weight: 500; display: block; color: var(--ink); }
+  .sim-livello-btn.active .slb { color: #fff; }
+  .sim-livello-btn .sln { font-size: 10px; color: var(--ink-3); display: block; margin-top: 2px; }
+  .sim-livello-btn.active .sln { color: rgba(255,255,255,0.5); }
+
+  .sim-divider { height: 1px; background: var(--border); margin: 24px 0; }
+
+  .sim-result {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .sim-result.eligible { border-color: var(--green-mid); background: var(--green-light); }
+  .sim-result.zero { border-color: var(--border-strong); }
+  .sim-result-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .sim-result.eligible .sim-result-label { color: var(--green-mid); }
+  .sim-result-value {
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+  .sim-result.eligible .sim-result-value { color: var(--green-mid); }
+  .sim-result-note { font-size: 12px; color: var(--ink-3); }
+
+  .sim-breakdown {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .sb-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    text-align: center;
+  }
+  .sb-card.current { border-color: var(--gold); background: var(--gold-light); }
+  .sb-label { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); display: block; margin-bottom: 4px; }
+  .sb-card.current .sb-label { color: var(--gold-dark); }
+  .sb-val { font-family: var(--font-mono); font-size: 14px; font-weight: 500; color: var(--ink); display: block; }
+  .sb-card.current .sb-val { color: var(--gold-dark); }
+
+  .sim-warning {
+    background: var(--red-light);
+    border: 1px solid rgba(192,67,42,0.2);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--red-mid);
+    margin-top: 12px;
+    font-weight: 300;
+    line-height: 1.6;
+    display: none;
+  }
+
+  /* ---- ELIGIBILITY NOTE ---- */
+  .elig-list {
+    list-style: none;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .elig-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-2);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .elig-list li::before {
+    content: '—';
+    color: var(--ink-3);
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-family: var(--font-mono);
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 600px) {
+    .piani-grid { grid-template-columns: 1fr; }
+    .sim-grid { grid-template-columns: 1fr; }
+    .sim-breakdown { grid-template-columns: 1fr; }
+    .scala-row { grid-template-columns: 44px 100px 1fr; }
+    .sim-livelli { grid-template-columns: repeat(5, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">Manuale operativo DEKKA · Copertura Valore</div>
+    <h1>Il servizio di<br><strong>Copertura Valore</strong></h1>
+    <p class="header-desc">
+      Un servizio accessorio attivabile carta per carta, che riconosce parzialmente la perdita di valore quando una carta ricevuta presenta condizioni inferiori a quelle documentate al momento dell'acquisto.
+    </p>
+  </div>
+
+  <!-- COS'È -->
+  <div class="section">
+    <div class="section-label">01 — Cos'è</div>
+    <h2 class="section-title">Non è un'assicurazione. È una tutela documentata.</h2>
+    <p class="section-body">
+      Il mercato C2C giapponese offre prezzi e disponibilità difficilmente replicabili altrove. Ma la natura stessa del mercato tra privati comporta un rischio intrinseco: la condizione di una carta, per quanto descritta e fotografata dal venditore, può risultare inferiore alle aspettative al momento della ricezione fisica.
+    </p>
+    <p class="section-body" style="margin-top:12px;">
+      La Copertura Valore DEKKA non garantisce un rimborso integrale né sostituisce una valutazione specialistica. Riconosce, in modo predeterminato e oggettivo, una quota della perdita di valore quando lo scarto tra condizione dichiarata e condizione effettiva è verificabile fotograficamente.
+    </p>
+  </div>
+
+  <!-- FLUSSO OPERATIVO -->
+  <div class="section">
+    <div class="section-label">02 — Come funziona</div>
+    <h2 class="section-title">Il flusso operativo in cinque passaggi.</h2>
+    <p class="section-body">
+      La copertura segue un processo strutturato in cui ogni passaggio è documentato e tracciabile. Il riferimento contrattuale viene stabilito prima dell'acquisto — non dopo la ricezione.
+    </p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-content">
+          <p class="flow-title">Il cliente invia il link e attiva la copertura</p>
+          <p class="flow-desc">Al momento dell'invio del link, il cliente sceglie il piano di copertura (Base, Plus o Max) e lo attiva per quella specifica carta. La copertura è per carta, non per link: ciascuna carta all'interno dello stesso link può avere un piano diverso o nessuna copertura. Il costo del piano è incluso nella fattura di fine periodo, insieme al canone e agli altri servizi.</p>
+          <span class="flow-tag tag-gold">Prima dell'acquisto</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num active">02</div>
+        <div class="flow-content">
+          <p class="flow-title">DEKKA assegna il livello di condizione pre-acquisto</p>
+          <p class="flow-desc">Prima di procedere all'acquisto, DEKKA esamina le foto e la descrizione dell'annuncio originale e assegna alla carta un livello sulla scala proprietaria DEKKA (D1–D5). Questo livello — non la dichiarazione del venditore — diventa il riferimento contrattuale.</p>
+          <span class="flow-tag tag-gold">Passaggio chiave · il riferimento si fissa qui</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-content">
+          <p class="flow-title">Il cliente conferma o rinuncia all'acquisto</p>
+          <p class="flow-desc">Il livello DEKKA assegnato viene comunicato al cliente. Se il livello non corrisponde alle aspettative, il cliente può rinunciare all'acquisto. In caso di conferma, l'acquisto procede e il livello D-start viene registrato come riferimento.</p>
+          <span class="flow-tag tag-gold">Finestra di conferma</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <div class="flow-content">
+          <p class="flow-title">Ricezione e assegnazione del livello effettivo</p>
+          <p class="flow-desc">Al ricevimento della carta presso gli uffici DEKKA, viene effettuato il controllo visivo e viene assegnato il livello DEKKA effettivo (D-end). Il confronto avviene tra le foto scattate al ricevimento e le foto originali dell'annuncio. Entrambe le serie fotografiche vengono conservate come documentazione.</p>
+          <span class="flow-tag tag-gold">Documentazione fotografica</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">05</div>
+        <div class="flow-content">
+          <p class="flow-title">Calcolo del rimborso e spedizione</p>
+          <p class="flow-desc">Se D-end è inferiore a D-start, lo scarto determina il rimborso teorico massimo. Il rimborso effettivo è la quota di quel massimo accessibile con il piano attivato, e viene accreditato al saldo disponibile del cliente entro 5 giorni lavorativi dalla chiusura del controllo. Le carte per cui è stata attivata la Copertura Valore vengono incluse nella spedizione solo a saldo integrale della fattura di fine periodo.</p>
+          <span class="flow-tag tag-green">Rimborso accreditato a saldo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCALA DEKKA -->
+  <div class="section">
+    <div class="section-label">03 — Scala condizioni</div>
+    <h2 class="section-title">La scala proprietaria DEKKA.</h2>
+    <p class="section-body">
+      Ogni carta coperta viene classificata su una scala a cinque livelli basata su criteri visivi oggettivi e fotografabili. La scala è indipendente dalle nomenclature utilizzate dalle singole piattaforme di acquisto: qualunque sia il canale, il riferimento è sempre e solo la scala DEKKA.
+    </p>
+
+    <div class="scala">
+      <div class="scala-row header">
+        <div class="sc-cell"></div>
+        <div class="sc-cell mono">Livello</div>
+        <div class="sc-cell mono">Criteri visivi</div>
+      </div>
+      <div class="scala-row">
+        <div class="sc-cell center"><span class="sc-badge bd1">D1</span></div>
+        <div class="sc-cell"><span class="sc-name">Mint</span><span class="sc-sub">Perfetto</span></div>
+        <div class="sc-cell"><p class="sc-desc">Nessun segno rilevabile in nessuna zona. Superfici intatte. Angoli integri.</p></div>
+      </div>
+      <div class="scala-row">
+        <div class="sc-cell center"><span class="sc-badge bd2">D2</span></div>
+        <div class="sc-cell"><span class="sc-name">Near Mint</span><span class="sc-sub">Difetti minimi</span></div>
+        <div class="sc-cell"><p class="sc-desc">Micro-graffi superficiali visibili solo in luce radente. Angoli con usura minima. Nessun punto bianco, nessuna piega.</p></div>
+      </div>
+      <div class="scala-row">
+        <div class="sc-cell center"><span class="sc-badge bd3">D3</span></div>
+        <div class="sc-cell"><span class="sc-name">Excellent</span><span class="sc-sub">Lievi difetti visibili</span></div>
+        <div class="sc-cell"><p class="sc-desc">Graffi leggeri a occhio nudo. Piccoli punti bianchi sugli angoli. Micro-abrasioni diffuse sul retro. Nessuna piega.</p></div>
+      </div>
+      <div class="scala-row">
+        <div class="sc-cell center"><span class="sc-badge bd4">D4</span></div>
+        <div class="sc-cell"><span class="sc-name">Light Played</span><span class="sc-sub">Difetti evidenti</span></div>
+        <div class="sc-cell"><p class="sc-desc">Graffi visibili frontalmente. Punti bianchi multipli. Pieghe leggere su angoli o bordi. Abrasioni sul retro. Lievi pressioni sull'illustrazione.</p></div>
+      </div>
+      <div class="scala-row">
+        <div class="sc-cell center"><span class="sc-badge bd5">D5</span></div>
+        <div class="sc-cell"><span class="sc-name">Played</span><span class="sc-sub">Difetti gravi</span></div>
+        <div class="sc-cell"><p class="sc-desc">Graffi profondi o multipli. Pieghe centrali o estese. Strappi. Sporco non rimovibile. Pressioni sull'illustrazione. Angoli gravemente compromessi.</p></div>
+      </div>
+    </div>
+
+    <p class="section-body" style="margin-top:16px; font-size:13px;">
+      I difetti di stampa non rientrano nei criteri di valutazione. La Copertura Valore non è un servizio di grading specialistico e non si applica a imperfezioni di produzione.
+    </p>
+  </div>
+
+  <!-- PIANI -->
+  <div class="section">
+    <div class="section-label">04 — Piani di copertura</div>
+    <h2 class="section-title">Tre piani, un rimborso determinato dallo scarto.</h2>
+    <p class="section-body">
+      Il rimborso teorico massimo è determinato dallo scarto tra il livello DEKKA pre-acquisto e il livello effettivo al ricevimento. Il piano attivato stabilisce quale quota di quel massimo è accessibile. I piani sono indipendenti dal piano abbonamento DEKKA.
+    </p>
+
+    <div class="piani-grid">
+      <div class="piano">
+        <p class="piano-eyebrow">Base</p>
+        <p class="piano-name">Copertura Base</p>
+        <p class="piano-price">300¥</p>
+        <p class="piano-access">per carta · 25% del rimborso teorico</p>
+        <div class="piano-rows">
+          <div class="piano-row"><span>Scarto −1 livello</span><strong>5%</strong></div>
+          <div class="piano-row"><span>Scarto −2 livelli</span><strong>10%</strong></div>
+          <div class="piano-row"><span>Scarto −3+ livelli</span><strong>15%</strong></div>
+        </div>
+      </div>
+      <div class="piano featured">
+        <p class="piano-eyebrow">Consigliato</p>
+        <p class="piano-name">Copertura Plus</p>
+        <p class="piano-price">500¥</p>
+        <p class="piano-access">per carta · 50% del rimborso teorico</p>
+        <div class="piano-rows">
+          <div class="piano-row"><span>Scarto −1 livello</span><strong>10%</strong></div>
+          <div class="piano-row"><span>Scarto −2 livelli</span><strong>20%</strong></div>
+          <div class="piano-row"><span>Scarto −3+ livelli</span><strong>30%</strong></div>
+        </div>
+      </div>
+      <div class="piano">
+        <p class="piano-eyebrow">Massima tutela</p>
+        <p class="piano-name">Copertura Max</p>
+        <p class="piano-price">900¥</p>
+        <p class="piano-access">per carta · 100% del rimborso teorico</p>
+        <div class="piano-rows">
+          <div class="piano-row"><span>Scarto −1 livello</span><strong>20%</strong></div>
+          <div class="piano-row"><span>Scarto −2 livelli</span><strong>40%</strong></div>
+          <div class="piano-row"><span>Scarto −3+ livelli</span><strong>60%</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-body" style="font-size:13px; margin-top:4px;">
+      Il rimborso è calcolato sul valore dichiarato nell'annuncio originale, documentato da screenshot al momento dell'invio del link. Non è calcolato sul valore di mercato corrente al momento del sinistro.
+    </p>
+  </div>
+
+  <!-- SIMULATORE -->
+  <div class="section">
+    <div class="section-label">05 — Simulatore</div>
+
+    <div class="sim-wrapper">
+      <div class="sim-header">
+        <div class="sim-header-eyebrow">Strumento interattivo</div>
+        <h2>Calcola il rimborso <strong>per la tua carta</strong></h2>
+        <p class="sim-header-desc">Inserisci il valore della carta, il livello DEKKA assegnato pre-acquisto, la condizione effettiva al ricevimento e il piano attivato. Il simulatore mostra il rimborso spettante e il confronto tra i tre piani.</p>
+      </div>
+      <div class="sim-body">
+
+        <div class="sim-grid">
+          <div class="sim-field">
+            <label>Valore dichiarato (¥)</label>
+            <input type="number" id="s-val" value="20000" min="1000" step="500">
+          </div>
+          <div class="sim-field">
+            <label>Piano attivato</label>
+            <select id="s-piano">
+              <option value="base">Base — 300¥/carta</option>
+              <option value="plus" selected="">Plus — 500¥/carta</option>
+              <option value="max">Max — 900¥/carta</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="sim-field" style="margin-bottom:10px;">
+          <label>Livello DEKKA pre-acquisto (D-start)</label>
+        </div>
+        <div class="sim-livelli" id="start-btns">
+          <div class="sim-livello-btn" data-val="1"><span class="slb">D1</span><span class="sln">Mint</span></div>
+          <div class="sim-livello-btn active" data-val="2"><span class="slb">D2</span><span class="sln">Near Mint</span></div>
+          <div class="sim-livello-btn" data-val="3"><span class="slb">D3</span><span class="sln">Excellent</span></div>
+          <div class="sim-livello-btn" data-val="4"><span class="slb">D4</span><span class="sln">Lt. Played</span></div>
+          <div class="sim-livello-btn" data-val="5" style="display:none;"><span class="slb">D5</span><span class="sln">Played</span></div>
+        </div>
+
+        <div class="sim-field" style="margin-bottom:10px;">
+          <label>Livello DEKKA al ricevimento (D-end)</label>
+        </div>
+        <div class="sim-livelli" id="end-btns">
+          <div class="sim-livello-btn" data-val="1"><span class="slb">D1</span><span class="sln">Mint</span></div>
+          <div class="sim-livello-btn" data-val="2"><span class="slb">D2</span><span class="sln">Near Mint</span></div>
+          <div class="sim-livello-btn active" data-val="3"><span class="slb">D3</span><span class="sln">Excellent</span></div>
+          <div class="sim-livello-btn" data-val="4"><span class="slb">D4</span><span class="sln">Lt. Played</span></div>
+          <div class="sim-livello-btn" data-val="5"><span class="slb">D5</span><span class="sln">Played</span></div>
+        </div>
+
+        <div class="sim-divider"></div>
+
+        <div class="sim-result eligible" id="sim-result">
+          <p class="sim-result-label" id="r-label">Rimborso spettante</p>
+          <p class="sim-result-value" id="r-value">2000¥</p>
+          <p class="sim-result-note" id="r-note">Piano Plus · scarto −1 livello · 10% di 20.000¥</p>
+        </div>
+
+        <div class="sim-breakdown" id="sim-breakdown">
+          <div class="sb-card" id="sb-base">
+            <span class="sb-label">Base · 300¥</span>
+            <span class="sb-val" id="sb-base-val">1000¥</span>
+          </div>
+          <div class="sb-card current" id="sb-plus">
+            <span class="sb-label">Plus · 500¥</span>
+            <span class="sb-val" id="sb-plus-val">2000¥</span>
+          </div>
+          <div class="sb-card" id="sb-max">
+            <span class="sb-label">Max · 900¥</span>
+            <span class="sb-val" id="sb-max-val">4000¥</span>
+          </div>
+        </div>
+
+        <div class="sim-warning" id="sim-warning" style="display: none;">
+          Il livello al ricevimento non può essere superiore al livello pre-acquisto. Se la carta arriva in condizioni migliori del previsto, non è previsto alcun rimborso.
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- CONDIZIONI DI ELEGGIBILITÀ -->
+  <div class="section">
+    <div class="section-label">06 — Condizioni di eleggibilità</div>
+    <h2 class="section-title">Quando si applica la copertura.</h2>
+    <p class="section-body">
+      Il rimborso è erogato solo al verificarsi congiunto di tutte le condizioni seguenti.
+    </p>
+    <ul class="elig-list">
+      <li>La copertura è stata attivata prima dell'acquisto, al momento dell'invio del link.</li>
+      <li>Il livello DEKKA pre-acquisto è stato assegnato e comunicato al cliente, che ha confermato l'acquisto.</li>
+      <li>Il livello DEKKA effettivo al ricevimento è inferiore al livello pre-acquisto.</li>
+      <li>Lo scarto è verificabile per confronto tra le foto al ricevimento e le foto originali dell'annuncio.</li>
+      <li>Il difetto non è esplicitamente dichiarato né visibile nelle foto originali dell'annuncio.</li>
+      <li>Il difetto rientra nelle categorie previste dalla scala DEKKA: graffi, pieghe, pressioni, abrasioni, strappi, sporco. I difetti di stampa non sono considerati.</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+  const scartiPct = { 0: 0, 1: 0.20, 2: 0.40, 3: 0.60 };
+  const accessoPct = { base: 0.25, plus: 0.50, max: 1.00 };
+  const prezzi = { base: 300, plus: 500, max: 900 };
+  const nomiPiano = { base: 'Base', plus: 'Plus', max: 'Max' };
+  const nomiScarto = { 0: 'nessuno scarto', 1: 'scarto −1 livello', 2: 'scarto −2 livelli', 3: 'scarto −3+ livelli' };
+
+  let dStart = 2, dEnd = 3;
+
+  function fmt(n) {
+    return Math.round(n).toLocaleString('it-IT') + '¥';
+  }
+
+  function update() {
+    const val = parseInt(document.getElementById('s-val').value) || 0;
+    const piano = document.getElementById('s-piano').value;
+    const delta = Math.max(0, dEnd - dStart);
+    const cappedDelta = Math.min(delta, 3);
+    const pctScarto = scartiPct[cappedDelta];
+    const teorico = val * pctScarto;
+
+    const rBase = teorico * 0.25;
+    const rPlus = teorico * 0.50;
+    const rMax  = teorico * 1.00;
+    const rCorrente = teorico * accessoPct[piano];
+
+    const result = document.getElementById('sim-result');
+    const warning = document.getElementById('sim-warning');
+
+    if (dEnd < dStart) {
+      warning.style.display = 'block';
+      result.className = 'sim-result zero';
+      document.getElementById('r-label').textContent = 'Nessun rimborso';
+      document.getElementById('r-value').textContent = '0¥';
+      document.getElementById('r-note').textContent = 'Il livello ricevuto è uguale o migliore del livello pre-acquisto.';
+    } else if (delta === 0) {
+      warning.style.display = 'none';
+      result.className = 'sim-result zero';
+      document.getElementById('r-label').textContent = 'Nessun rimborso';
+      document.getElementById('r-value').textContent = '0¥';
+      document.getElementById('r-note').textContent = 'La condizione ricevuta corrisponde al livello pre-acquisto.';
+    } else {
+      warning.style.display = 'none';
+      result.className = 'sim-result eligible';
+      document.getElementById('r-label').textContent = 'Rimborso spettante';
+      document.getElementById('r-value').textContent = fmt(rCorrente);
+      document.getElementById('r-note').textContent =
+        'Piano ' + nomiPiano[piano] + ' · ' + nomiScarto[cappedDelta] + ' · ' +
+        Math.round(pctScarto * accessoPct[piano] * 100) + '% di ' + val.toLocaleString('it-IT') + '¥';
+    }
+
+    document.getElementById('sb-base-val').textContent = fmt(rBase);
+    document.getElementById('sb-plus-val').textContent = fmt(rPlus);
+    document.getElementById('sb-max-val').textContent  = fmt(rMax);
+
+    ['base','plus','max'].forEach(p => {
+      document.getElementById('sb-'+p).className = 'sb-card' + (p === piano ? ' current' : '');
+    });
+  }
+
+  function setupBtns(containerId, callback) {
+    const container = document.getElementById(containerId);
+    container.querySelectorAll('.sim-livello-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        container.querySelectorAll('.sim-livello-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        callback(parseInt(btn.dataset.val));
+        update();
+      });
+    });
+  }
+
+  setupBtns('start-btns', v => { dStart = v; });
+  setupBtns('end-btns',   v => { dEnd = v; });
+
+  document.getElementById('s-val').addEventListener('input', update);
+  document.getElementById('s-piano').addEventListener('change', update);
+  update();
+</script>
+
+
+</body></html>
