@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEKKA — Approvvigionamento professionale dal Giappone</title>
+<link rel="stylesheet" href="dekka.css">
+<style>
+  .prov-banner {
+    background: var(--bg-dark);
+    color: rgba(255,255,255,0.7);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-align: center;
+    padding: 8px 16px;
+  }
+
+  .nav-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  @media(max-width: 640px) { .nav-grid { grid-template-columns: 1fr; } }
+
+  .nav-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-card);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    padding: 22px 24px;
+    text-decoration: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .nav-card:hover { border-color: var(--gold); background: #FFFDF5; }
+
+  .nav-card-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    margin-bottom: 10px;
+  }
+  .nav-card-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .nav-card-desc {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.6;
+    font-weight: 300;
+    flex-grow: 1;
+  }
+  .nav-card-cta {
+    margin-top: 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+  }
+  .nav-card:hover .nav-card-cta { color: var(--gold-dark); }
+
+  .nav-card.pdf { border-style: dashed; }
+
+  .idx-note {
+    margin-top: 28px;
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-card);
+  }
+  .idx-note p {
+    font-size: 12.5px;
+    color: var(--ink-3);
+    line-height: 1.7;
+    font-family: var(--font-mono);
+  }
+</style>
+</head>
+<body>
+
+<div class="prov-banner">Pubblicazione provvisoria del sito DEKKA — versione di lavoro</div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">DEKKA · Indice del sito</div>
+    <h1>Approvvigionamento professionale<br><strong>dal mercato giapponese.</strong></h1>
+    <p class="header-desc">Servizio riservato a operatori B2B titolari di partita IVA. Da questa pagina puoi raggiungere tutte le sezioni del sito: presentazione del servizio, documentazione contrattuale, tariffario e strumenti interattivi.</p>
+  </div>
+
+  <!-- PRESENTAZIONE -->
+  <div class="section">
+    <div class="section-label">Presentazione del servizio</div>
+    <div class="nav-grid">
+
+      <a class="nav-card" href="DEKKA___Chi_siamo.html">
+        <div class="nav-card-eyebrow">Chi siamo</div>
+        <div class="nav-card-title">Presentazione di DEKKA</div>
+        <div class="nav-card-desc">Cos'è DEKKA, la filosofia del servizio e la storia che lo ha generato.</div>
+        <div class="nav-card-cta">Vai alla pagina →</div>
+      </a>
+
+      <a class="nav-card" href="DEKKA___Piani_e_Tariffe.html">
+        <div class="nav-card-eyebrow">Tariffario</div>
+        <div class="nav-card-title">Piani e Tariffe</div>
+        <div class="nav-card-desc">Struttura dei piani, canoni, massimali di link e simulatore di efficienza per scegliere il piano più adatto.</div>
+        <div class="nav-card-cta">Vai alla pagina →</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- SERVIZI ACCESSORI E STRUMENTI -->
+  <div class="section">
+    <div class="section-label">Servizi accessori e strumenti interattivi</div>
+    <div class="nav-grid">
+
+      <a class="nav-card" href="DEKKA___Copertura_Valore.html">
+        <div class="nav-card-eyebrow">Servizio accessorio</div>
+        <div class="nav-card-title">Copertura Valore</div>
+        <div class="nav-card-desc">Il servizio opzionale di tutela sulla condizione delle carte, la scala DEKKA D1–D5 e il simulatore di rimborso.</div>
+        <div class="nav-card-cta">Vai alla pagina →</div>
+      </a>
+
+      <a class="nav-card" href="DEKKA___Simulatore_Spese_Importazione.html">
+        <div class="nav-card-eyebrow">Strumento interattivo</div>
+        <div class="nav-card-title">Simulatore spese di importazione</div>
+        <div class="nav-card-desc">Stima indicativa di spedizione, dazi, IVA e diritti di esborso per un ordine ipotetico dal Giappone.</div>
+        <div class="nav-card-cta">Vai alla pagina →</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- DOCUMENTAZIONE CONTRATTUALE -->
+  <div class="section">
+    <div class="section-label">Documentazione contrattuale</div>
+    <div class="nav-grid">
+
+      <a class="nav-card" href="DEKKA___Termini_e_Condizioni.html">
+        <div class="nav-card-eyebrow">Documento legale</div>
+        <div class="nav-card-title">Termini e Condizioni del Servizio</div>
+        <div class="nav-card-desc">Il regolamento completo del servizio: rapporto contrattuale, operatività, spedizione, dogana, aspetti economici e responsabilità.</div>
+        <div class="nav-card-cta">Vai alla pagina →</div>
+      </a>
+
+      <a class="nav-card" href="DEKKA___Accordo_di_Mandato_IT.html">
+        <div class="nav-card-eyebrow">Documento legale</div>
+        <div class="nav-card-title">Accordo di Mandato senza Rappresentanza (IT)</div>
+        <div class="nav-card-desc">Il documento che regola il rapporto di mandato tra TARABINI (DEKKA) e il Cliente, in lingua italiana.</div>
+        <div class="nav-card-cta">Vai alla pagina →</div>
+      </a>
+
+      <a class="nav-card" href="DEKKA___Accordo_di_Mandato.html">
+        <div class="nav-card-eyebrow">Documento legale · bilingue</div>
+        <div class="nav-card-title">Accordo di Mandato senza Rappresentanza (IT / JP)</div>
+        <div class="nav-card-desc">Versione bilingue italiano-giapponese dell'Accordo di Mandato, con testo a fronte articolo per articolo.</div>
+        <div class="nav-card-cta">Vai alla pagina →</div>
+      </a>
+
+    </div>
+
+    <div class="idx-note">
+      <p>Questa pagina è un indice provvisorio, generato per la pubblicazione di anteprima del sito. I collegamenti fanno riferimento ai file HTML/PDF presenti nella stessa cartella del repository. Prima della pubblicazione definitiva, sostituire i placeholder di URL presenti nei singoli documenti (Termini e Condizioni, Accordo di Mandato) con gli indirizzi reali del dominio DEKKA.</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
