@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<!-- saved from url=(0087)file:///C:/Users/%E3%82%BF%E3%83%A9%E3%83%93%E3%83%8B/Downloads/dekka_tariffario_3.html -->
+<html lang="it"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEKKA — Piani e Tariffe</title>
+<link rel="stylesheet" href="dekka.css">
+<style>
+  /* ---- CONCETTI BASE ---- */
+  .concetti-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  @media(max-width: 600px) { .concetti-grid { grid-template-columns: 1fr; } }
+
+  .concetto-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+  }
+  .concetto-term {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .concetto-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .concetto-body {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+
+  /* ---- TABELLA VISUALE ---- */
+  .piani-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: var(--bg-card);
+  }
+  .piani-table thead tr {
+    background: var(--bg-dark);
+    color: #fff;
+  }
+  .piani-table th {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 400;
+    padding: 14px 20px;
+    text-align: left;
+    color: rgba(255,255,255,0.55);
+    border-right: 1px solid rgba(255,255,255,0.07);
+  }
+  .piani-table th:last-child { border-right: none; }
+  .piani-table th.col-piano { color: rgba(255,255,255,0.85); }
+
+  .piani-table tbody tr {
+    border-top: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .piani-table tbody tr:hover { background: rgba(184,150,12,0.04); }
+  .piani-table td {
+    padding: 16px 20px;
+    font-size: 14px;
+    border-right: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .piani-table td:last-child { border-right: none; }
+
+  .piano-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .piano-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-trial   { background: var(--ink-3); }
+  .dot-starter { background: var(--green-mid); }
+  .dot-basic   { background: var(--blue-mid); }
+  .dot-pro     { background: var(--gold); }
+
+  .row-pro td { background: rgba(184,150,12,0.03); }
+
+  .badge-consigliato {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--gold-light);
+    color: var(--gold-dark);
+    border-radius: 20px;
+    padding: 2px 8px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .canone-val {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .canone-free {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink-3);
+    font-style: italic;
+  }
+  .massimale-val {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .consumo-val {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .durata-val {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+
+  .table-note {
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-top: 10px;
+    padding-left: 4px;
+    font-family: var(--font-mono);
+  }
+
+  /* ---- TESTO DISCORSIVO PIANI ---- */
+  .piani-desc { display: flex; flex-direction: column; gap: 28px; margin-bottom: 48px; }
+
+  .piano-desc-block {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--bg-card);
+  }
+  @media(max-width: 640px) {
+    .piano-desc-block { grid-template-columns: 1fr; }
+  }
+
+  .piano-desc-sidebar {
+    padding: 28px 20px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  @media(max-width: 640px) {
+    .piano-desc-sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+
+  .piano-desc-nome {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .piano-desc-canone {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: var(--ink);
+  }
+  .piano-desc-canone span {
+    display: block;
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-top: 2px;
+    font-style: italic;
+  }
+  .piano-desc-massimale {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-2);
+    padding: 6px 10px;
+    background: var(--bg);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .piano-desc-consumo {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+
+  .piano-desc-body {
+    padding: 28px;
+  }
+  .piano-desc-body p {
+    font-size: 14.5px;
+    color: var(--ink-2);
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+  .piano-desc-body p:last-child { margin-bottom: 0; }
+
+  .piano-block-core .piano-desc-sidebar {
+    background: linear-gradient(180deg, rgba(184,150,12,0.06) 0%, rgba(184,150,12,0.02) 100%);
+  }
+
+  /* ---- INCLUSO IN TUTTI ---- */
+  .incluso-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 0;
+  }
+  @media(max-width: 640px) { .incluso-grid { grid-template-columns: 1fr; } }
+
+  .incluso-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+  }
+  .incluso-icon {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .incluso-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .incluso-body {
+    font-size: 12.5px;
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+
+  /* ---- SEPARATORE ---- */
+  .sep {
+    height: 1px;
+    background: var(--border);
+    margin: 64px 0;
+  }
+
+  /* =========================================================
+     SIMULATORE
+  ========================================================= */
+  .sim-wrapper {
+    background: var(--bg-card);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .sim-header {
+    background: var(--bg-dark);
+    padding: 28px 32px 24px;
+  }
+  .sim-header-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 8px;
+  }
+  .sim-header h2 {
+    font-size: 20px;
+    font-weight: 300;
+    color: #fff;
+    letter-spacing: -0.01em;
+  }
+  .sim-header h2 strong { font-weight: 500; }
+  .sim-header-desc {
+    margin-top: 8px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+  }
+
+  .sim-body { padding: 32px; }
+
+  /* ---- PIANO SELECTOR ---- */
+  .sim-piano-selector {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+  @media(max-width: 600px) { .sim-piano-selector { grid-template-columns: repeat(2, 1fr); } }
+
+  .sim-piano-btn {
+    padding: 14px 10px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.18s;
+    position: relative;
+  }
+  .sim-piano-btn:hover { background: var(--gold-light); border-color: var(--gold); }
+  .sim-piano-btn.active {
+    background: var(--bg-dark);
+    border-color: var(--bg-dark);
+    color: #fff;
+  }
+  .sim-piano-btn-nome {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .sim-piano-btn-canone {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+  .sim-piano-btn.active .sim-piano-btn-canone { color: rgba(255,255,255,0.5); }
+  .sim-piano-btn.active .sim-piano-btn-nome { color: #fff; }
+
+  /* ---- SLIDER LINK ---- */
+  .sim-slider-row {
+    margin-bottom: 32px;
+  }
+  .sim-slider-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .sim-slider-labeltext {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .sim-slider-val {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    color: var(--ink);
+  }
+  .sim-slider-val span {
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-left: 4px;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border-strong);
+    outline: none;
+    cursor: pointer;
+    position: relative;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--bg-dark);
+    border: 2px solid var(--bg-dark);
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    transition: transform 0.12s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+  input[type=range]::-moz-range-thumb {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--bg-dark);
+    border: 2px solid var(--bg-dark);
+    cursor: pointer;
+  }
+
+  .sim-slider-markers {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+  .sim-slider-markers span {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-3);
+  }
+
+  /* ---- RESULTS GRID ---- */
+  .sim-results {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  @media(max-width: 600px) { .sim-results { grid-template-columns: 1fr 1fr; } }
+
+  .sim-metric {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px 16px;
+  }
+  .sim-metric-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .sim-metric-val {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .sim-metric-unit {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--ink-3);
+    margin-left: 2px;
+  }
+  .sim-metric-note {
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  .sim-metric.highlight {
+    background: var(--bg-dark);
+    border-color: var(--bg-dark);
+  }
+  .sim-metric.highlight .sim-metric-label { color: rgba(255,255,255,0.4); }
+  .sim-metric.highlight .sim-metric-val { color: #fff; }
+  .sim-metric.highlight .sim-metric-note { color: rgba(255,255,255,0.35); }
+
+  .sim-metric.good-metric { border-color: rgba(58,107,40,0.3); }
+  .sim-metric.bad-metric  { border-color: rgba(192,67,42,0.3); }
+
+  /* ---- BREAKDOWN BAR ---- */
+  .sim-breakdown {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+  .sim-breakdown-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 14px;
+  }
+  .sim-bar-wrap {
+    height: 12px;
+    border-radius: 6px;
+    background: var(--border);
+    overflow: hidden;
+    display: flex;
+    margin-bottom: 12px;
+  }
+  .sim-bar-canone {
+    background: var(--bg-dark);
+    height: 100%;
+    transition: width 0.35s cubic-bezier(.4,0,.2,1);
+    border-radius: 6px 0 0 6px;
+  }
+  .sim-bar-consumo {
+    background: var(--gold);
+    height: 100%;
+    transition: width 0.35s cubic-bezier(.4,0,.2,1);
+  }
+  .sim-bar-legend {
+    display: flex;
+    gap: 20px;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .sim-bar-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .sim-bar-legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ---- CONFRONTO PIANI ---- */
+  .sim-confronto {
+    margin-top: 24px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+  .sim-confronto-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 14px;
+  }
+  .sim-confronto-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  @media(max-width: 600px) { .sim-confronto-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .sim-confronto-item {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+    position: relative;
+  }
+  .sim-confronto-item.active-plan {
+    border-color: var(--bg-dark);
+    background: var(--bg-card);
+  }
+  .sim-confronto-nome {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 6px;
+  }
+  .sim-confronto-item.active-plan .sim-confronto-nome { color: var(--ink); }
+  .sim-confronto-costo-link {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .sim-confronto-totale {
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-top: 3px;
+    font-family: var(--font-mono);
+  }
+  .sim-confronto-badge-best {
+    position: absolute;
+    top: 6px; right: 6px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--green-light);
+    color: var(--green-mid);
+    border-radius: 10px;
+    padding: 2px 6px;
+  }
+  .sim-confronto-badge-current {
+    position: absolute;
+    top: 6px; right: 6px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--bg-dark);
+    color: rgba(255,255,255,0.7);
+    border-radius: 10px;
+    padding: 2px 6px;
+  }
+  .sim-confronto-item.unavailable { opacity: 0.4; }
+  .sim-confronto-item.unavailable .sim-confronto-costo-link {
+    color: var(--ink-3);
+    text-decoration: line-through;
+  }
+
+  /* ---- SUGGERIMENTO ---- */
+  .sim-suggestion {
+    margin-top: 20px;
+    padding: 16px 20px;
+    border-radius: var(--radius-lg);
+    font-size: 13.5px;
+    line-height: 1.6;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .sim-suggestion.neutral  { background: var(--bg); border: 1px solid var(--border); color: var(--ink-2); }
+  .sim-suggestion.good     { background: var(--green-light); border: 1px solid rgba(58,107,40,0.2); color: var(--green-mid); }
+  .sim-suggestion.warning  { background: var(--amber-light); border: 1px solid rgba(138,94,16,0.2); color: var(--amber-mid); }
+  .sim-suggestion.bad      { background: var(--red-light); border: 1px solid rgba(192,67,42,0.2); color: var(--red-mid); }
+  .sim-suggestion-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  .sim-footer-note {
+    margin-top: 28px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    line-height: 1.6;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">Manuale operativo DEKKA · Piani e tariffe</div>
+    <h1>Come funziona<br><strong>il tariffario DEKKA</strong></h1>
+    <p class="header-desc">Questa sezione spiega la struttura del servizio, le voci che compongono i piani e il significato di ciascun parametro. In fondo trovi il simulatore per valutare quale piano si adatta meglio al tuo volume di acquisto.</p>
+  </div>
+
+  <!-- CONCETTI BASE -->
+  <div class="section">
+    <div class="section-label">01 — Le quattro grandezze fondamentali</div>
+
+    <div class="concetti-grid">
+      <div class="concetto-card">
+        <div class="concetto-term">Unità di misura</div>
+        <div class="concetto-title">Il link</div>
+        <div class="concetto-body">
+          L'intera struttura tariffaria è costruita attorno a una sola unità: il <strong>link</strong>. Un link corrisponde a una singola richiesta di acquisto inviata al servizio, identificata dall'URL dell'annuncio su piattaforma. Ogni link può includere fino a un massimo di 25 articoli della stessa referenza: che tu richieda 1 carta o 25 dello stesso annuncio, il conteggio è identico. Questa uniformità semplifica la pianificazione e rende prevedibile il consumo del piano.
+        </div>
+      </div>
+      <div class="concetto-card">
+        <div class="concetto-term">Componente fissa</div>
+        <div class="concetto-title">Il canone mensile</div>
+        <div class="concetto-body">
+          Ogni piano prevede un <strong>canone mensile anticipato</strong>, da corrispondere prima dell'attivazione del periodo. Il pagamento del canone è il presupposto per sbloccare l'accesso al servizio: il periodo di 30 giorni decorre dalla conferma del pagamento. Il canone non copre la merce né le spese di spedizione: rappresenta il costo di accesso al servizio e include, nel massimale previsto, la capacità operativa disponibile.
+        </div>
+      </div>
+      <div class="concetto-card">
+        <div class="concetto-term">Soglia mensile</div>
+        <div class="concetto-title">Il massimale</div>
+        <div class="concetto-body">
+          Il <strong>massimale</strong> indica il numero di link gestibili nell'arco dei 30 giorni del periodo di abbonamento. Si azzera ad ogni rinnovo e non è cumulabile: i link non utilizzati in un periodo non si trasferiscono al successivo. Il massimale definisce la capienza operativa inclusa nel canone — ogni link inviato oltre quella soglia genera un costo aggiuntivo a consumo.
+        </div>
+      </div>
+      <div class="concetto-card">
+        <div class="concetto-term">Componente variabile</div>
+        <div class="concetto-title">Il consumo in eccedenza</div>
+        <div class="concetto-body">
+          Quando il numero di link inviati supera il massimale del piano attivo, ogni link aggiuntivo viene addebitato alla tariffa di <strong>consumo in eccedenza</strong>, espressa in ¥ per link. Questa componente consente di superare il massimale senza dover cambiare piano, mantenendo continuità operativa. Il consumo in eccedenza è incluso nella fattura di fine periodo insieme al canone e alle spese di spedizione.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABELLA -->
+  <div class="section">
+    <div class="section-label">02 — La tabella dei piani</div>
+
+    <table class="piani-table">
+      <thead>
+        <tr>
+          <th class="col-piano">Piano</th>
+          <th>Canone mensile</th>
+          <th>Massimale</th>
+          <th>Tariffa eccedenza</th>
+          <th>Durata</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="piano-badge">
+              <span class="piano-dot dot-trial"></span>
+              Trial *
+            </div>
+          </td>
+          <td><span class="canone-free">Gratuito</span></td>
+          <td><span class="massimale-val">100 link · non sforabile</span></td>
+          <td><span class="canone-free">Non applicabile</span></td>
+          <td><span class="durata-val">30 gg · non rinnovabile</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="piano-badge">
+              <span class="piano-dot dot-starter"></span>
+              Starter
+            </div>
+          </td>
+          <td><span class="canone-val">34.000 ¥</span></td>
+          <td><span class="massimale-val">40 link</span></td>
+          <td><span class="consumo-val">850 ¥/link</span></td>
+          <td><span class="durata-val">30 gg · rinnovabile</span></td>
+        </tr>
+        <tr class="row-pro">
+          <td>
+            <div class="piano-badge">
+              <span class="piano-dot dot-basic"></span>
+              Basic
+              <span class="badge-consigliato">Consigliato</span>
+            </div>
+          </td>
+          <td><span class="canone-val">70.000 ¥</span></td>
+          <td><span class="massimale-val">100 link</span></td>
+          <td><span class="consumo-val">650 ¥/link</span></td>
+          <td><span class="durata-val">30 gg · rinnovabile</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="piano-badge">
+              <span class="piano-dot dot-pro"></span>
+              Pro
+            </div>
+          </td>
+          <td><span class="canone-val">108.000 ¥</span></td>
+          <td><span class="massimale-val">180 link</span></td>
+          <td><span class="consumo-val">550 ¥/link</span></td>
+          <td><span class="durata-val">30 gg · rinnovabile</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="table-note">Tutti i valori sono espressi in yen giapponesi (JPY). Il canone mensile è anticipato e necessario per sbloccare l'accesso al servizio. Consumo in eccedenza e spese di spedizione sono addebitati a scadenza dei 30 giorni.</div>
+    <div class="table-note" style="margin-top:6px;">* Il Trial è completamente gratuito fino a 100 link. Non è rinnovabile né sforabile, e non prevede consumo in eccedenza.</div>
+  </div>
+
+  <!-- DESCRIZIONE PIANI -->
+  <div class="section">
+    <div class="section-label">03 — Cosa significa ciascun piano</div>
+
+    <div class="piani-desc">
+
+      <!-- TRIAL -->
+      <div class="piano-desc-block">
+        <div class="piano-desc-sidebar">
+          <div class="piano-desc-nome">
+            <span class="piano-dot dot-trial"></span>
+            Trial
+          </div>
+          <div class="piano-desc-canone">
+            Gratuito
+            <span>nessun canone, nessun costo per link</span>
+          </div>
+          <div class="piano-desc-massimale">100 link · non sforabile</div>
+          <div class="piano-desc-consumo">30 giorni · non rinnovabile</div>
+        </div>
+        <div class="piano-desc-body">
+          <p>Il Trial è il punto di accesso al servizio, disponibile <strong>una sola volta per account</strong> e della durata di 30 giorni. È completamente gratuito: non prevede alcun canone né alcun costo per i link inviati, fino al massimo di 100 link inclusi nel periodo.</p>
+          <p>Non è rinnovabile né attivabile una seconda volta sullo stesso account. Non è sforabile: il servizio accetta al massimo 100 link nel periodo Trial, e non è possibile inviarne di più indipendentemente dal numero di giorni rimanenti.</p>
+          <p>È pensato per chi si avvicina al servizio per la prima volta e vuole percorrere l'intero flusso — dall'invio del primo ordine alla ricezione della spedizione — senza nessun impegno economico. Al termine dei 30 giorni il servizio si interrompe automaticamente: per continuare è necessario attivare uno dei piani mensili.</p>
+        </div>
+      </div>
+
+      <!-- STARTER -->
+      <div class="piano-desc-block">
+        <div class="piano-desc-sidebar">
+          <div class="piano-desc-nome">
+            <span class="piano-dot dot-starter"></span>
+            Starter
+          </div>
+          <div class="piano-desc-canone">
+            34.000 ¥
+            <span>anticipato · sblocca il servizio</span>
+          </div>
+          <div class="piano-desc-massimale">40 link massimali</div>
+          <div class="piano-desc-consumo">850 ¥/link in eccedenza</div>
+        </div>
+        <div class="piano-desc-body">
+          <p>Lo Starter è il piano di ingresso per chi intende utilizzare il servizio in modo continuativo con volumi contenuti. Con un massimale di 40 link mensili e un canone di 34.000 ¥, il costo implicito per link incluso nel canone è di 850 ¥ — in linea con la tariffa di eccedenza per questo piano.</p>
+          <p>Il canone è anticipato: viene corrisposto prima dell'attivazione del periodo e sblocca l'accesso al servizio per i 30 giorni successivi. Consumo in eccedenza e spese di spedizione vengono addebitati a scadenza del periodo.</p>
+          <p>È il piano adatto a chi ha appena concluso il Trial e vuole mantenere un flusso operativo stabile con volumi ancora limitati, senza ancora il volume per giustificare il piano Basic.</p>
+        </div>
+      </div>
+
+      <!-- BASIC -->
+      <div class="piano-desc-block piano-block-core">
+        <div class="piano-desc-sidebar">
+          <div class="piano-desc-nome">
+            <span class="piano-dot dot-basic"></span>
+            Basic
+          </div>
+          <div class="piano-desc-canone">
+            70.000 ¥
+            <span>anticipato · sblocca il servizio</span>
+          </div>
+          <div class="piano-desc-massimale">100 link massimali</div>
+          <div class="piano-desc-consumo">650 ¥/link in eccedenza</div>
+        </div>
+        <div class="piano-desc-body">
+          <p>Il Basic è il piano intermedio, pensato per operatori con flussi mensili già consolidati. Con un massimale di 100 link e un canone di 70.000 ¥, il costo implicito per link incluso nel canone è di 700 ¥. Il piano diventa conveniente rispetto allo Starter già a partire da volumi superiori ai 40 link mensili.</p>
+          <p>Il canone è anticipato: viene corrisposto prima dell'attivazione del periodo e sblocca l'accesso al servizio per i 30 giorni successivi. Consumo in eccedenza e spese di spedizione vengono addebitati a scadenza del periodo.</p>
+          <p>È il piano adatto a chi ha superato la fase di ingresso e vuole un flusso operativo stabile con volumi tra 40 e 100 link mensili, senza ancora il volume per giustificare il piano Pro.</p>
+        </div>
+      </div>
+
+      <!-- PRO -->
+      <div class="piano-desc-block">
+        <div class="piano-desc-sidebar">
+          <div class="piano-desc-nome">
+            <span class="piano-dot dot-pro"></span>
+            Pro
+          </div>
+          <div class="piano-desc-canone">
+            108.000 ¥
+            <span>anticipato · sblocca il servizio</span>
+          </div>
+          <div class="piano-desc-massimale">180 link massimali</div>
+          <div class="piano-desc-consumo">550 ¥/link in eccedenza</div>
+        </div>
+        <div class="piano-desc-body">
+          <p>Il Pro è il piano consigliato e il più scelto tra gli operatori già avviati. Con un massimale di 180 link e un canone di 108.000 ¥, il costo implicito per link incluso nel canone scende a 600 ¥ — un miglioramento sensibile rispetto al Basic. Questa differenza si amplifica ulteriormente per i link aggiuntivi in eccedenza: a 550 ¥/link contro i 650 ¥/link del Basic.</p>
+          <p>Il canone è anticipato: viene corrisposto prima dell'attivazione del periodo e sblocca l'accesso al servizio per i 30 giorni successivi. Consumo in eccedenza e spese di spedizione vengono addebitati a scadenza del periodo.</p>
+          <p>È il punto di equilibrio tra capacità operativa, costo unitario ed elasticità: abbastanza ampio da gestire flussi mensili consistenti senza rischiare di esaurire il massimale, e con una tariffa in eccedenza che non penalizza i picchi di attività. Se sei indeciso tra Basic e Pro, il simulatore qui sotto ti permette di confrontare il costo effettivo a link per il tuo volume stimato.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- INCLUSO IN TUTTI -->
+  <div class="section">
+    <div class="section-label">04 — Incluso in tutti i piani senza costi aggiuntivi</div>
+    <div class="incluso-grid">
+      <div class="incluso-item">
+        <div class="incluso-icon">✓</div>
+        <div class="incluso-title">Controllo formale</div>
+        <div class="incluso-body">Verifica che il prodotto fisicamente ricevuto corrisponda a quanto indicato nell'annuncio. Incluso per ogni ordine, senza attivazione.</div>
+      </div>
+      <div class="incluso-item">
+        <div class="incluso-icon">✓</div>
+        <div class="incluso-title">Perfect size sleeve</div>
+        <div class="incluso-body">Ogni carta viene inserita in un perfect size sleeve prima dell'accorpamento, a protezione della superficie durante le operazioni di consolidamento e spedizione.</div>
+      </div>
+      <div class="incluso-item">
+        <div class="incluso-icon">✓</div>
+        <div class="incluso-title">Accorpamento merce</div>
+        <div class="incluso-body">Tutti gli articoli vengono estratti dagli imballaggi originali e consolidati in un unico collo ottimizzato, riducendo peso e volume ai fini della spedizione internazionale.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- ===================== SIMULATORE ===================== -->
+  <div class="section">
+    <div class="section-label">05 — Simulatore di efficienza del piano</div>
+
+    <div class="sim-wrapper">
+
+      <div class="sim-header">
+        <div class="sim-header-eyebrow">Strumento interattivo</div>
+        <h2>Quanto ti costa <strong>ogni link</strong>?</h2>
+        <p class="sim-header-desc">Inserisci il volume mensile previsto e il piano che stai valutando. Il simulatore calcola il costo effettivo a link e confronta tutti i piani per aiutarti a scegliere quello più efficiente per il tuo utilizzo.</p>
+      </div>
+
+      <div class="sim-body">
+
+        <!-- Selettore piano -->
+        <div class="sim-piano-selector">
+          <button class="sim-piano-btn" data-piano="starter" onclick="setPiano('starter')">
+            <div class="sim-piano-btn-nome">Starter</div>
+            <div class="sim-piano-btn-canone">34.000 ¥ · anticipato</div>
+          </button>
+          <button class="sim-piano-btn active" data-piano="basic" onclick="setPiano('basic')">
+            <div class="sim-piano-btn-nome">Basic</div>
+            <div class="sim-piano-btn-canone">70.000 ¥ · anticipato</div>
+          </button>
+          <button class="sim-piano-btn" data-piano="pro" onclick="setPiano('pro')">
+            <div class="sim-piano-btn-nome">Pro</div>
+            <div class="sim-piano-btn-canone">108.000 ¥ · anticipato</div>
+          </button>
+        </div>
+
+        <!-- Slider -->
+        <div class="sim-slider-row">
+          <div class="sim-slider-label">
+            <div class="sim-slider-labeltext">Link inviati nel mese</div>
+            <div class="sim-slider-val" id="slider-display">90<span>link</span></div>
+          </div>
+          <input type="range" id="link-slider" min="1" max="400" value="90" oninput="onSlider(this.value)">
+          <div class="sim-slider-markers">
+            <span>1</span>
+            <span>100</span>
+            <span>200</span>
+            <span>300</span>
+            <span>400</span>
+          </div>
+        </div>
+
+        <!-- Metriche -->
+        <div class="sim-results">
+          <div class="sim-metric highlight">
+            <div class="sim-metric-label">Costo effettivo / link</div>
+            <div class="sim-metric-val" id="res-costo-link">1,200<span class="sim-metric-unit">¥</span></div>
+            <div class="sim-metric-note" id="res-costo-note">Poco efficiente</div>
+          </div>
+          <div class="sim-metric">
+            <div class="sim-metric-label">Costo totale del mese</div>
+            <div class="sim-metric-val" id="res-totale">108,000<span class="sim-metric-unit">¥</span></div>
+            <div class="sim-metric-note" id="res-totale-note">Canone 100% · Eccedenza 0%</div>
+          </div>
+          <div class="sim-metric">
+            <div class="sim-metric-label">Link in eccedenza</div>
+            <div class="sim-metric-val" id="res-eccedenza">0</div>
+            <div class="sim-metric-note" id="res-eccedenza-note">Dentro il massimale (180 link)</div>
+          </div>
+        </div>
+
+        <!-- Barra breakdown -->
+        <div class="sim-breakdown">
+          <div class="sim-breakdown-title">Composizione del costo mensile</div>
+          <div class="sim-bar-wrap">
+            <div class="sim-bar-canone" id="bar-canone" style="width: 100%;"></div>
+            <div class="sim-bar-consumo" id="bar-consumo" style="width: 0%;"></div>
+          </div>
+          <div class="sim-bar-legend">
+            <div class="sim-bar-legend-item">
+              <span class="sim-bar-legend-dot" style="background:var(--bg-dark)"></span>
+              <span id="leg-canone">Canone fisso: 108,000 ¥</span>
+            </div>
+            <div class="sim-bar-legend-item">
+              <span class="sim-bar-legend-dot" style="background:var(--gold)"></span>
+              <span id="leg-consumo">Consumo in eccedenza: 0 ¥</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Confronto piani -->
+        <div class="sim-confronto">
+          <div class="sim-confronto-title">Confronto tra tutti i piani per questo volume</div>
+          <div class="sim-confronto-grid" id="confronto-grid"><div class="sim-confronto-item">
+      <span class="sim-confronto-badge-best">Più efficiente</span>
+      <div class="sim-confronto-nome">Trial</div>
+      <div class="sim-confronto-costo-link">700 ¥/link</div>
+      <div class="sim-confronto-totale">63,000 ¥ totali</div>
+      <div class="sim-confronto-totale">Max 100 link · non rinnovabile</div>
+    </div><div class="sim-confronto-item">
+      
+      <div class="sim-confronto-nome">Basic</div>
+      <div class="sim-confronto-costo-link">778 ¥/link</div>
+      <div class="sim-confronto-totale">70,000 ¥ totali</div>
+      
+    </div><div class="sim-confronto-item active-plan">
+      <span class="sim-confronto-badge-current">Selezionato</span>
+      <div class="sim-confronto-nome">Core</div>
+      <div class="sim-confronto-costo-link">1,200 ¥/link</div>
+      <div class="sim-confronto-totale">108,000 ¥ totali</div>
+      
+    </div><div class="sim-confronto-item">
+      
+      <div class="sim-confronto-nome">Pro</div>
+      <div class="sim-confronto-costo-link">1,667 ¥/link</div>
+      <div class="sim-confronto-totale">150,000 ¥ totali</div>
+      
+    </div></div>
+        </div>
+
+        <!-- Suggerimento -->
+        <div class="sim-suggestion neutral" id="sim-suggestion">
+          <span class="sim-suggestion-icon">ℹ</span>
+          <span id="sim-suggestion-text">Utilizzo nella norma: 90 link su 180 massimali (50%). Costo a link: 1,200 ¥. Il piano ha ancora margine disponibile.</span>
+        </div>
+
+        <div class="sim-footer-note">
+          Il simulatore calcola il costo del solo servizio DEKKA (canone + eccedenza). Non include gli anticipi per l'acquisto della merce né i servizi accessori a pagamento. Il canone è anticipato e necessario per sbloccare il periodo; consumo in eccedenza e spese di spedizione sono addebitati a scadenza dei 30 giorni.
+        </div>
+
+      </div><!-- /sim-body -->
+    </div><!-- /sim-wrapper -->
+  </div>
+
+</div><!-- /page -->
+
+<script>
+const PIANI = {
+  starter: { nome: 'Starter', canone: 34000,  max: 40,  excRate: 850, color: '#3A6B28' },
+  basic:   { nome: 'Basic',   canone: 70000,  max: 100, excRate: 650, color: '#2A4E8A' },
+  pro:     { nome: 'Pro',     canone: 108000, max: 180, excRate: 550, color: '#B8960C' },
+};
+
+let pianoCorrente = 'basic';
+let linkCorrente  = 90;
+
+function setPiano(id) {
+  pianoCorrente = id;
+  document.querySelectorAll('.sim-piano-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.piano === id);
+  });
+  update();
+}
+
+function onSlider(v) {
+  linkCorrente = parseInt(v);
+  document.getElementById('slider-display').innerHTML =
+    linkCorrente + '<span>link</span>';
+  update();
+}
+
+function fmt(n) {
+  return Math.round(n).toLocaleString('ja-JP');
+}
+
+function calcola(pianoId, links) {
+  const p = PIANI[pianoId];
+  const exc = Math.max(0, links - p.max);
+  const costoEcc = exc * p.excRate;
+  const totale   = p.canone + costoEcc;
+  const costoLink = links > 0 ? totale / links : 0;
+  return { exc, costoEcc, totale, costoLink };
+}
+
+function update() {
+  const links = linkCorrente;
+  const p     = PIANI[pianoCorrente];
+  const r     = calcola(pianoCorrente, links);
+
+  // --- Metriche principali ---
+  document.getElementById('res-costo-link').innerHTML =
+    fmt(r.costoLink) + '<span class="sim-metric-unit">¥</span>';
+
+  document.getElementById('res-totale').innerHTML =
+    fmt(r.totale) + '<span class="sim-metric-unit">¥</span>';
+
+  const pctCanone = Math.round(p.canone / r.totale * 100);
+  document.getElementById('res-totale-note').textContent =
+    `Canone ${pctCanone}% · Eccedenza ${100 - pctCanone}%`;
+
+  document.getElementById('res-costo-note').textContent =
+    r.costoLink <= 600 ? 'Ottimale' :
+    r.costoLink <= 700 ? 'Efficiente' :
+    r.costoLink <= 850 ? 'Nella media' : 'Poco efficiente';
+
+  // --- Eccedenza ---
+  const excEl = document.getElementById('res-eccedenza');
+  const excNoteEl = document.getElementById('res-eccedenza-note');
+  if (r.exc === 0) {
+    excEl.innerHTML = '0';
+    excNoteEl.textContent = 'Dentro il massimale (' + p.max + ' link)';
+  } else {
+    excEl.innerHTML = r.exc + '<span class="sim-metric-unit">link</span>';
+    excNoteEl.textContent = fmt(r.costoEcc) + ' ¥ aggiuntivi';
+  }
+
+  // --- Barra breakdown ---
+  let pctC, pctE;
+  if (r.totale === 0) { pctC = 100; pctE = 0; }
+  else {
+    pctC = Math.round(p.canone / r.totale * 100);
+    pctE = 100 - pctC;
+  }
+  document.getElementById('bar-canone').style.width  = pctC + '%';
+  document.getElementById('bar-consumo').style.width = pctE + '%';
+  document.getElementById('leg-canone').textContent  = 'Canone fisso: ' + fmt(p.canone) + ' ¥';
+  document.getElementById('leg-consumo').textContent =
+    'Consumo in eccedenza: ' + fmt(r.costoEcc) + ' ¥';
+
+  // --- Confronto piani ---
+  const grid = document.getElementById('confronto-grid');
+  grid.innerHTML = '';
+
+  let bestId = null;
+  let bestCostLink = Infinity;
+
+  Object.keys(PIANI).forEach(id => {
+    const rc = calcola(id, links);
+    if (rc.costoLink < bestCostLink) { bestCostLink = rc.costoLink; bestId = id; }
+  });
+
+  Object.keys(PIANI).forEach(id => {
+    const piano = PIANI[id];
+    const rc    = calcola(id, links);
+    const isCurrent = (id === pianoCorrente);
+    const isBest    = (id === bestId) && (id !== pianoCorrente);
+
+    const div = document.createElement('div');
+    div.className = 'sim-confronto-item' + (isCurrent ? ' active-plan' : '');
+
+    let badge = '';
+    if (isCurrent) badge = '<span class="sim-confronto-badge-current">Selezionato</span>';
+    else if (isBest) badge = '<span class="sim-confronto-badge-best">Più efficiente</span>';
+
+    div.innerHTML = `
+      ${badge}
+      <div class="sim-confronto-nome">${piano.nome}</div>
+      <div class="sim-confronto-costo-link">${fmt(rc.costoLink)} ¥/link</div>
+      <div class="sim-confronto-totale">${fmt(rc.totale)} ¥ totali</div>
+    `;
+    grid.appendChild(div);
+  });
+
+  // --- Suggerimento ---
+  const sugg = document.getElementById('sim-suggestion');
+  const suggText = document.getElementById('sim-suggestion-text');
+  const overMax = links > p.max;
+  const saturation = links / p.max;
+
+  let cls = 'neutral', icon = 'ℹ', msg = '';
+
+  if (!overMax && saturation < 0.5) {
+    cls = 'warning'; icon = '⚠';
+    msg = `Con ${links} link stai usando solo il ${Math.round(saturation*100)}% del massimale ${p.nome}. Il piano è sottoutilizzato: il costo effettivo a link è ${fmt(r.costoLink)} ¥, più alto di quanto potrebbe essere a piena saturazione (${fmt(p.canone / p.max)} ¥/link).`;
+  } else if (!overMax && saturation >= 0.5 && saturation < 0.85) {
+    cls = 'neutral'; icon = 'ℹ';
+    msg = `Utilizzo nella norma: ${links} link su ${p.max} massimali (${Math.round(saturation*100)}%). Costo a link: ${fmt(r.costoLink)} ¥. Il piano ha ancora margine disponibile.`;
+  } else if (!overMax && saturation >= 0.85) {
+    cls = 'good'; icon = '✓';
+    msg = `Ottimo utilizzo del piano: ${links} link su ${p.max} (${Math.round(saturation*100)}%). Stai sfruttando il canone in modo efficiente a ${fmt(r.costoLink)} ¥/link.`;
+  } else {
+    // Eccedenza
+    const altPiano = pianoCorrente === 'starter' ? 'basic' :
+                     pianoCorrente === 'basic'   ? 'pro' : null;
+    if (altPiano) {
+      const altR = calcola(altPiano, links);
+      if (altR.costoLink < r.costoLink) {
+        cls = 'warning'; icon = '⚠';
+        msg = `Con ${links} link hai ${r.exc} link in eccedenza (${fmt(r.costoEcc)} ¥ aggiuntivi). Il piano ${PIANI[altPiano].nome} ti costerebbe ${fmt(altR.totale)} ¥ totali (${fmt(altR.costoLink)} ¥/link) — ${fmt(r.totale - altR.totale)} ¥ in meno.`;
+      } else {
+        cls = 'neutral'; icon = 'ℹ';
+        msg = `Hai ${r.exc} link in eccedenza, ma il ${p.nome} rimane il piano più economico per questo volume (${fmt(r.costoLink)} ¥/link).`;
+      }
+    } else {
+      cls = 'neutral'; icon = 'ℹ';
+      msg = `Hai ${r.exc} link in eccedenza sul piano Pro. Il costo effettivo a link è ${fmt(r.costoLink)} ¥.`;
+    }
+  }
+
+  sugg.className = `sim-suggestion ${cls}`;
+  sugg.querySelector('.sim-suggestion-icon').textContent = icon;
+  suggText.textContent = msg;
+}
+
+// Init
+update();
+</script>
+
+
+</body></html>
