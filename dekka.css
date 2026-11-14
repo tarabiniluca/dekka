@@ -135,3 +135,12 @@ h1 strong { font-weight: 500; }
   color: rgba(255,255,255,0.45);
   line-height: 1.6;
 }
+
+/* ---- RESPONSIVE MOBILE ---- */
+@media(max-width: 600px) {
+  .page { padding: 36px 16px 64px; }
+  .header { margin-bottom: 48px; }
+  .section { margin-bottom: 48px; }
+  .header-desc { font-size: 15px; }
+  .sim-header { padding: 20px 20px 16px; }
+}

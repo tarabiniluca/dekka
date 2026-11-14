@@ -71,6 +71,7 @@
       align-items: center;
       gap: 2px;
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       flex: 1;
     }

@@ -303,6 +303,18 @@
   }
 
   .sim-body { padding: 32px; }
+  @media(max-width: 600px) {
+    .sim-body { padding: 20px 16px; }
+    .piano-desc-body { padding: 20px 16px; }
+  }
+
+  .piani-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--radius-lg);
+    margin-bottom: 12px;
+  }
+  .piani-table-wrap .piani-table { margin-bottom: 0; }
 
   /* ---- PIANO SELECTOR ---- */
   .sim-piano-selector {
@@ -677,6 +689,7 @@
   <div class="section">
     <div class="section-label">02 — La tabella dei piani</div>
 
+    <div class="piani-table-wrap">
     <table class="piani-table">
       <thead>
         <tr>
@@ -739,6 +752,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
     <div class="table-note">Tutti i valori sono espressi in yen giapponesi (JPY). Il canone mensile è anticipato e necessario per sbloccare l'accesso al servizio. Consumo in eccedenza e spese di spedizione sono addebitati a scadenza dei 30 giorni.</div>
     <div class="table-note" style="margin-top:6px;">* Il Trial è completamente gratuito fino a 100 link. Non è rinnovabile né sforabile, e non prevede consumo in eccedenza.</div>
   </div>
