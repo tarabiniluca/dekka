@@ -1,25 +1,10 @@
 // ================================================================
-// registro_doppioni.gs — DEKKA gestionale
+// registro_doppioni.js — DEKKA gestionale
 // Controllo automatico link doppi tra clienti.
-//
-// ISTRUZIONI DI DEPLOY:
-//   1. clasp pull nel progetto gestionale
-//   2. Copia questo file nella directory clasp del gestionale
-//   3. Aggiungi le costanti da constants_additions.gs a constants.gs
-//   4. Aggiungi la funzione da triggers_additions.gs a triggers.gs
-//   5. clasp push
-//   6. Esegui setupTriggerRiallineamento() una volta (da script editor)
-//   7. Esegui backfillRegistroStorico() una volta per i link esistenti
-//
-// ASSUNZIONI (da verificare con il gestionale reale):
-//   - Il tab di ogni cliente nel gestionale si chiama CLIENT_NAME
-//   - Nella prima riga del tab c'è un header con una colonna
-//     il cui testo corrisponde a LINK_COLUMN_HEADERS (vedi sotto)
-//   - Eventuali tab da escludere sono in EXCLUDED_SHEETS
 // ================================================================
 
 // -----------------------------------------------------------------
-// COSTANTI — definite qui; sposta in constants.gs se preferito
+// COSTANTI
 // -----------------------------------------------------------------
 const REG_SHEET_NAME      = 'DEKKA_Registro';
 const NOTE_PREFIX         = '⚠ DEKKA: ';
@@ -83,14 +68,6 @@ function getRegistroSheet_() {
 
 // -----------------------------------------------------------------
 // REGISTRA LINK — chiamata dal Mangia Link via SpreadsheetApp.openById
-//
-// Parametri:
-//   clientName  — chiave interna del cliente (CLIENT_NAME del Mangia Link)
-//   url         — URL dell'annuncio (stringa grezza incollata dal cliente)
-//
-// Ritorna un oggetto:
-//   { codice, timestamp, isDoppio, priorityClient, priorityTs }
-//   o null se non è stato possibile acquisire il lock
 // -----------------------------------------------------------------
 function registraLink(clientName, url) {
   const lock = LockService.getScriptLock();
@@ -167,10 +144,6 @@ function rimuoviLink(clientName, url) {
 
 // -----------------------------------------------------------------
 // RIALLINEAMENTO GLOBALE — trigger ogni ~5 minuti (sicurezza)
-//
-// 1. Valida il registro: rimuove voci il cui URL non è più presente
-//    nel tab cliente del gestionale (link cancellati o modificati da Luca)
-// 2. Ricalcola colori e note per tutti i codici con doppioni
 // -----------------------------------------------------------------
 function riallineaDoppioni() {
   const sh = getRegistroSheet_();
@@ -390,8 +363,6 @@ function verificaCFConflitto_(sheet, colonnaLink) {
 // -----------------------------------------------------------------
 // BACKFILL UNA TANTUM — importa link già presenti nel gestionale
 // Eseguire una sola volta dopo il deploy iniziale.
-// Link con solo la data (00:00:00): parità nello stesso giorno
-// va decisa manualmente da Luca.
 // -----------------------------------------------------------------
 function backfillRegistroStorico() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -425,7 +396,6 @@ function backfillRegistroStorico() {
       if (registrati.has(key)) return;
 
       // Timestamp storico: data attuale alle 00:00:00
-      // Links con stessa data → parità → decidere manualmente
       const tsStorico = new Date();
       tsStorico.setHours(0, 0, 0, 0);
       sh.appendRow([nome, codice, url, tsStorico.toISOString()]);
