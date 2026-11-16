@@ -373,6 +373,38 @@ function verificaCFConflitto_(sheet, colonnaLink) {
 }
 
 // -----------------------------------------------------------------
+// onEdit — ripristina la cella e riallinea gli altri clienti quando
+// un URL viene rimosso o sostituito manualmente nel gestionale.
+// Trigger semplice: si attiva automaticamente senza installazione.
+// -----------------------------------------------------------------
+function onEdit(e) {
+  if (!e) return;
+  const range = e.range;
+  const sheet = range.getSheet();
+  const sheetName = sheet.getName();
+
+  // Solo schede cliente
+  if (EXCLUDED_SHEETS.indexOf(sheetName) >= 0) return;
+
+  // Solo colonna LINK, una riga alla volta
+  const col = getColonnaLink_(sheet);
+  if (!col || range.getColumn() !== col || range.getNumRows() !== 1) return;
+
+  const oldUrl = (e.oldValue !== undefined && e.oldValue !== null)
+    ? String(e.oldValue).trim() : '';
+  if (!oldUrl) return;
+
+  const codice = normalizzaCodiceAnnuncio(oldUrl);
+  if (!codice) return;
+
+  // 1. Ripristina subito la cella modificata
+  rimuoviMarcaturaCella_(sheet, range.getRow(), col);
+
+  // 2. Rimuovi dal registro e riallinea gli altri clienti coinvolti
+  rimuoviLink(sheetName, oldUrl);
+}
+
+// -----------------------------------------------------------------
 // BACKFILL UNA TANTUM — importa link già presenti nel gestionale
 // Eseguire una sola volta dopo il deploy iniziale.
 // -----------------------------------------------------------------
