@@ -240,19 +240,24 @@ function marcaCella_(sheet, riga, colonnaLink, colore, notaDekka) {
   const propKey = PROP_ORIG_BG_PREFIX + sheet.getName() + '_' + riga;
   const props = PropertiesService.getScriptProperties();
 
-  // Salva il colore originale solo alla prima marcatura
-  if (!noteAtt.includes(NOTE_PREFIX)) {
-    if (!props.getProperty(propKey)) {
+  // Salva origBg in PropertiesService se non ancora presente
+  if (!props.getProperty(propKey)) {
+    const mBg = noteAtt.match(/\[origBg:([^\]]+)\]/);
+    if (mBg) {
+      // Migra da nota (scritta da Mangia Link) a PropertiesService
+      props.setProperty(propKey, mBg[1]);
+    } else if (!noteAtt.includes(NOTE_PREFIX)) {
+      // Prima marcatura assoluta — leggi dalla cella
       props.setProperty(propKey, cella.getBackground() || '#ffffff');
     }
   }
 
   cella.setBackground(colore);
 
-  // Costruisce la nota: mantieni note manuali prima della riga DEKKA
+  // Costruisce nota: mantieni manuale, imposta riga DEKKA senza tag [origBg:]
   const noteManuale = noteAtt.includes(NOTE_PREFIX)
     ? noteAtt.split('\n').filter(r => !r.startsWith(NOTE_PREFIX)).join('\n').trim()
-    : noteAtt.trim();
+    : noteAtt.replace(/\[origBg:[^\]]+\]/g, '').trim();
   const notaFinale = noteManuale ? noteManuale + '\n' + notaDekka : notaDekka;
   cella.setNote(notaFinale);
 }
@@ -277,7 +282,14 @@ function rimuoviMarcaturaCella_(sheet, riga, colonnaLink) {
 
   const propKey = PROP_ORIG_BG_PREFIX + sheet.getName() + '_' + riga;
   const props = PropertiesService.getScriptProperties();
-  const origBg = props.getProperty(propKey);
+  let origBg = props.getProperty(propKey);
+
+  // Fallback: origBg codificato nella nota da Mangia Link
+  if (!origBg) {
+    const m = nota.match(/\[origBg:([^\]]+)\]/);
+    if (m) origBg = m[1];
+  }
+
   cella.setBackground(origBg || null);
   if (origBg) props.deleteProperty(propKey);
 
