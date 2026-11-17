@@ -125,7 +125,10 @@ function saveClientSheetId_(clientName, sheetId) {
   PropertiesService.getScriptProperties().setProperty('client_' + clientName, sheetId);
 }
 function getClientSheetId_(clientName) {
-  return PropertiesService.getScriptProperties().getProperty('client_' + clientName);
+  const raw = PropertiesService.getScriptProperties().getProperty('client_' + clientName);
+  if (!raw) return null;
+  const m = raw.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  return m ? m[1] : raw;
 }
 function deleteClientSheetId_(clientName) {
   PropertiesService.getScriptProperties().deleteProperty('client_' + clientName);
