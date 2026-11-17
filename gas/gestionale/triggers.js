@@ -1,8 +1,6 @@
 // ─────────────────────────────────────────────────────────────
 // STATI
 // ─────────────────────────────────────────────────────────────
-const STATO_ACQUISTO  = ["PAGATO", "RICEVUTO", "SPEDITO"];
-const STATO_RICEZIONE = ["RICEVUTO", "SPEDITO"];
 
 // Stati che annullano il link: esclusi da utilizzo piano e ordini attivi,
 // resettano i check sul foglio client.
@@ -293,6 +291,8 @@ function onOpen() {
     .addSeparator()
     .addItem("Genera Rendiconto Cliente", "generaRendiconto")
     .addItem("Modifica dati anagrafici cliente", "modificaDatiAnagrafici")
+    .addSeparator()
+    .addItem("Migra schede mese → STATO (una tantum)", "migraSchemeMeseVersoSTATO_")
     .addToUi();
 }
 
@@ -637,21 +637,11 @@ function handleStatoChange_(sheet, row, nuovoStato) {
     const clientRow = findClientRow_(clientSheet, link);
     if (!clientRow) { Logger.log("Link non trovato sul client: " + link); return; }
 
-    const acquisto  = STATO_ACQUISTO.includes(nuovoStato);
-    const ricezione = STATO_RICEZIONE.includes(nuovoStato);
-
-    clientSheet.getRange(clientRow, C_COL.ACQUISTO).setValue(acquisto);
-    clientSheet.getRange(clientRow, C_COL.RICEZIONE).setValue(ricezione);
-
+    clientSheet.getRange(clientRow, C_COL.STATO).setValue(nuovoStato);
     if (STATI_ANNULLATI.includes(nuovoStato)) {
-      // Qualsiasi stato annullato: azzera check e data spedizione, lascia nota
-      clientSheet.getRange(clientRow, C_COL.ACQUISTO).setValue(false);
-      clientSheet.getRange(clientRow, C_COL.RICEZIONE).setValue(false);
       clientSheet.getRange(clientRow, C_COL.SPEDIZIONE).setValue("");
-      clientSheet.getRange(clientRow, C_COL.LINK).setNote(nuovoStato);
-    } else {
-      clientSheet.getRange(clientRow, C_COL.LINK).clearNote();
     }
+    clientSheet.getRange(clientRow, C_COL.LINK).clearNote();
 
     Logger.log("Stato aggiornato sul client: " + nuovoStato + " — riga " + clientRow);
 
@@ -689,16 +679,14 @@ function handleSpedizioneChange_(sheet, row, dataSpedizione) {
       sheet.getRange(row, G_COL.STATO).setValue(statoPrecedente);
       PropertiesService.getScriptProperties().deleteProperty(statoPrecKey);
       clientSheet.getRange(clientRow, C_COL.SPEDIZIONE).setValue("");
-      clientSheet.getRange(clientRow, C_COL.ACQUISTO).setValue(STATO_ACQUISTO.includes(statoPrecedente));
-      clientSheet.getRange(clientRow, C_COL.RICEZIONE).setValue(STATO_RICEZIONE.includes(statoPrecedente));
+      clientSheet.getRange(clientRow, C_COL.STATO).setValue(statoPrecedente);
       Logger.log("Data rimossa — stato ripristinato a: " + statoPrecedente);
     } else {
       const statoAttuale = sheet.getRange(row, G_COL.STATO).getValue();
       if (statoAttuale !== "SPEDITO") {
         PropertiesService.getScriptProperties().setProperty(statoPrecKey, statoAttuale);
         sheet.getRange(row, G_COL.STATO).setValue("SPEDITO");
-        clientSheet.getRange(clientRow, C_COL.ACQUISTO).setValue(true);
-        clientSheet.getRange(clientRow, C_COL.RICEZIONE).setValue(true);
+        clientSheet.getRange(clientRow, C_COL.STATO).setValue("SPEDITO");
       }
       const dataFormattata = Utilities.formatDate(new Date(dataSpedizione), "Asia/Tokyo", "dd/MM/yyyy");
       clientSheet.getRange(clientRow, C_COL.SPEDIZIONE).setValue(dataFormattata);
@@ -2305,4 +2293,163 @@ function setupTriggerRiallineamento() {
     .create();
 
   Logger.log('Trigger riallineaDoppioni installato (ogni 5 min).');
+}
+
+
+// ═════════════════════════════════════════════════════════════
+// MIGRAZIONE SCHEDE MESE → COLONNA STATO (una tantum)
+//
+// Sostituisce le 2 colonne ACQUISTO (B) e RICEZIONE (C) con una
+// sola colonna STATO identica a quella del gestionale.
+// Elimina la colonna C (RICEZIONE), rinomina B in STATO,
+// applica dropdown e formattazione condizionale.
+// Il valore STATO viene letto dal gestionale (fonte di verità).
+// ═════════════════════════════════════════════════════════════
+function migraSchemeMeseVersoSTATO_() {
+  const ss  = SpreadsheetApp.getActiveSpreadsheet();
+  const ui  = SpreadsheetApp.getUi();
+
+  const confirm = ui.alert(
+    "Migrazione schede mese → STATO",
+    "Questa operazione modifica le schede mese di tutti i clienti:\n\n" +
+    "• Rimuove le colonne ACQUISTO e RICEZIONE (checkbox)\n" +
+    "• Aggiunge una colonna STATO identica a quella del gestionale\n\n" +
+    "⚠️ Eseguire dopo aver aggiornato gli script Mangia Link.\n" +
+    "L'operazione è irreversibile. Continuare?",
+    ui.ButtonSet.OK_CANCEL
+  );
+  if (confirm !== ui.Button.OK) return;
+
+  const clientSheets = ss.getSheets().filter(s => s.getName() !== "Dashboard");
+  let clientOk = 0, clientErr = 0;
+
+  for (const gestSheet of clientSheets) {
+    const clientName = gestSheet.getName();
+    const clientId   = getClientSheetId_(clientName);
+    if (!clientId) {
+      Logger.log("SheetID mancante per: " + clientName);
+      clientErr++;
+      continue;
+    }
+
+    try {
+      const clientSS = SpreadsheetApp.openById(clientId);
+      _migraMeseClienteSS_(gestSheet, clientSS, clientName);
+      clientOk++;
+    } catch (e) {
+      Logger.log("Errore migrazione " + clientName + ": " + e.message);
+      clientErr++;
+    }
+  }
+
+  ui.alert(
+    "✅ Migrazione completata\n\n" +
+    "Client aggiornati: " + clientOk + "\n" +
+    (clientErr > 0 ? "Errori: " + clientErr + " (controlla i log)" : "")
+  );
+}
+
+function _migraMeseClienteSS_(gestSheet, clientSS, clientName) {
+  const STATI_LISTA = ["NUOVO","PAGATO","RICEVUTO","SPEDITO","CANCELLATO","RESO","SOLD OUT","SMARRITO"];
+  const STATO_COLORS = [
+    { v: "NUOVO",     bg: "#efefef", fg: "#555555" },
+    { v: "PAGATO",    bg: "#fff2cc", fg: "#7d6608" },
+    { v: "RICEVUTO",  bg: "#cfe2ff", fg: "#0d47a1" },
+    { v: "SPEDITO",   bg: "#d9ead3", fg: "#1e5128" },
+    { v: "CANCELLATO",bg: "#f4cccc", fg: "#7b0000" },
+    { v: "RESO",      bg: "#ead1dc", fg: "#4a1030" },
+    { v: "SOLD OUT",  bg: "#f0e6ff", fg: "#4a0072" },
+    { v: "SMARRITO",  bg: "#f5e6d3", fg: "#7d4400" },
+  ];
+  const CV_COLORS = [
+    { v: "Base", bg: "#D9EAD3", fg: "#1E5128" },
+    { v: "Plus", bg: "#FFF2CC", fg: "#7D6608" },
+    { v: "Max",  bg: "#F4CCCC", fg: "#7B0000" },
+  ];
+
+  // Costruisce lookup link → stato dal gestionale (fonte di verità)
+  const linkToStato = {};
+  const lr = gestSheet.getLastRow();
+  if (lr >= 3) {
+    const gestLinks = gestSheet.getRange(3, G_COL.LINK,  lr - 2, 1).getValues();
+    const gestStati = gestSheet.getRange(3, G_COL.STATO, lr - 2, 1).getValues();
+    for (let i = 0; i < gestLinks.length; i++) {
+      const lk = gestLinks[i][0];
+      if (lk) linkToStato[lk] = gestStati[i][0] || "NUOVO";
+    }
+  }
+
+  for (const mese of MESI_IT) {
+    const sheet = clientSS.getSheetByName(mese);
+    if (!sheet) continue;
+
+    const headerB = sheet.getRange(1, 2).getValue();
+    if (headerB === "STATO") {
+      Logger.log("Già migrata: " + mese + " per " + clientName + " — skip");
+      continue;
+    }
+
+    // Leggi link dalla colonna E (col 5) PRIMA di eliminare la colonna C
+    const sheetLr = sheet.getLastRow();
+    const statoVals = [];
+    if (sheetLr >= 3) {
+      const links = sheet.getRange(3, 5, sheetLr - 2, 1).getValues();
+      for (let i = 0; i < links.length; i++) {
+        const lk = links[i][0];
+        statoVals.push([lk ? (linkToStato[lk] || "NUOVO") : ""]);
+      }
+    }
+
+    // Elimina colonna C (RICEZIONE) — shift: D→C, E→D, F→E, G→F, H→G, I→H
+    sheet.deleteColumn(3);
+
+    // Aggiorna header B → STATO
+    sheet.getRange(1, 2).setValue("STATO");
+
+    // Larghezze colonne
+    sheet.setColumnWidth(2, 90);   // STATO
+    sheet.setColumnWidth(3, 90);   // SPEDIZIONE
+    sheet.setColumnWidth(4, 240);  // LINK
+
+    // Validazione e formattazione colonna B (STATO)
+    sheet.getRange("B3:B1000")
+      .clearDataValidations()
+      .setHorizontalAlignment("center")
+      .setFontColor("#000000");
+    sheet.getRange("B3:B1000").setDataValidation(
+      SpreadsheetApp.newDataValidation()
+        .requireValueInList(STATI_LISTA, false)
+        .setAllowInvalid(false).build()
+    );
+
+    // Scrivi valori STATO
+    if (statoVals.length > 0) {
+      sheet.getRange(3, 2, statoVals.length, 1).setValues(statoVals);
+    }
+
+    // Aggiorna formattazione colonna D (LINK, era E)
+    sheet.getRange("D3:D1000")
+      .setHorizontalAlignment("left")
+      .setFontColor("#1155CC")
+      .setWrapStrategy(SpreadsheetApp.WrapStrategy.CLIP);
+
+    // Ricostruisce CF: STATO (B) + CV (G, era H)
+    const statoRange = sheet.getRange("B3:B1000");
+    const covRange   = sheet.getRange("G3:G1000");
+    const newRules = [
+      ...STATO_COLORS.map(c =>
+        SpreadsheetApp.newConditionalFormatRule()
+          .whenTextEqualTo(c.v).setBackground(c.bg).setFontColor(c.fg)
+          .setRanges([statoRange]).build()
+      ),
+      ...CV_COLORS.map(c =>
+        SpreadsheetApp.newConditionalFormatRule()
+          .whenTextEqualTo(c.v).setBackground(c.bg).setFontColor(c.fg)
+          .setRanges([covRange]).build()
+      ),
+    ];
+    sheet.setConditionalFormatRules(newRules);
+
+    Logger.log("Migrata scheda " + mese + " per " + clientName);
+  }
 }

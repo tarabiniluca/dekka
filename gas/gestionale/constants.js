@@ -16,14 +16,13 @@ const G_COL = {
 // COLONNE — Client cliente (schede mese)
 // ─────────────────────────────────────────────────────────────
 const C_COL = {
-  ACQUISTO   : 2,  // B
-  RICEZIONE  : 3,  // C
-  SPEDIZIONE : 4,  // D
-  LINK       : 5,  // E
-  QTA        : 6,  // F
-  IMPORTI    : 7,  // G
-  COV_PIANO  : 8,  // H  ← Copertura Valore: piano attivato
-  COV_NOTA   : 9,  // I  ← Copertura Valore: specifica carta
+  STATO      : 2,  // B
+  SPEDIZIONE : 3,  // C
+  LINK       : 4,  // D
+  QTA        : 5,  // E
+  IMPORTI    : 6,  // F
+  COV_PIANO  : 7,  // G  ← Copertura Valore: piano attivato
+  COV_NOTA   : 8,  // H  ← Copertura Valore: specifica carta
 };
 
 // ─────────────────────────────────────────────────────────────

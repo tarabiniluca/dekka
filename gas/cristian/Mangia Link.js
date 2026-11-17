@@ -32,10 +32,11 @@ const FETCH_HEADERS = {
 };
 
 // ─── COLONNE schede mese ──────────────────────────────────────
-// B=ACQUISTO | C=RICEZIONE | D=SPEDIZIONE | E=LINK | F=Q.TA | G=IMPORTI
-const COL_LINK    = 5; // E
-const COL_QTA     = 6; // F
-const COL_IMPORTI = 7; // G
+// B=STATO | C=SPEDIZIONE | D=LINK | E=Q.TA | F=IMPORTI
+const COL_STATO   = 2; // B
+const COL_LINK    = 4; // D
+const COL_QTA     = 5; // E
+const COL_IMPORTI = 6; // F
 // ─────────────────────────────────────────────────────────────
 
 // ─────────────────────────────────────────────────────────────
@@ -180,7 +181,8 @@ function handleLinkSubmission_(e) {
     : fetchProductData(link);
   const price = productData?.price ?? null;
 
-  // 5. Scrive link e prezzo sul foglio cliente
+  // 5. Scrive link, prezzo e stato iniziale sul foglio cliente
+  targetSheet.getRange(row, COL_STATO).setValue("NUOVO");
   targetSheet.getRange(row, COL_LINK).setValue(link);
   targetSheet.getRange(row, COL_IMPORTI).setValue(price !== null ? price : "N/D");
 
